@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의하기 | 귀멸의 칼날 상현 닮은꼴</title>
+  <meta name="description" content="귀멸의 칼날 상현 닮은꼴 서비스 문의. 버그 신고, 개선 제안, 개인정보 관련 문의를 보내주세요.">
+  <meta name="google-adsense-account" content="ca-pub-9688338422874533">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9688338422874533" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">鬼滅 上弦</a>
+      <div class="nav-links">
+        <a href="/">홈</a>
+        <a href="/about.html">소개</a>
+        <a href="/contact.html" class="active">문의</a>
+        <a href="/privacy.html">개인정보</a>
+      </div>
+      <button class="nav-hamburger" aria-label="메뉴 열기" onclick="toggleNav()">☰</button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/">홈</a>
+      <a href="/about.html">소개</a>
+      <a href="/contact.html" class="active">문의</a>
+      <a href="/privacy.html">개인정보</a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero anim-in">
+      <p class="page-eyebrow">Contact Us</p>
+      <h1 class="page-title">문의하기</h1>
+      <p class="page-sub">버그 신고, 개선 제안, 개인정보 관련 문의를 자유롭게 보내주세요</p>
+    </div>
+
+    <!-- 문의 양식 -->
+    <div class="content-section anim-in" style="animation-delay:0.1s">
+      <h2>✉️ 문의 양식</h2>
+      <form id="contact-form" action="https://formspree.io/f/mreaaqaj" method="POST" novalidate>
+        <div class="form-group">
+          <label for="name">이름 / 닉네임</label>
+          <input type="text" id="name" name="name" placeholder="귀신 사냥꾼 탄지로..." required maxlength="50">
+        </div>
+        <div class="form-group">
+          <label for="email">이메일 주소</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">문의 유형</label>
+          <select id="subject" name="subject" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:13px 16px;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:14px;width:100%;outline:none;cursor:pointer;">
+            <option value="" style="background:#1a0a2e;">문의 유형을 선택해주세요</option>
+            <option value="bug" style="background:#1a0a2e;">🐛 버그 신고</option>
+            <option value="suggest" style="background:#1a0a2e;">💡 개선 제안</option>
+            <option value="privacy" style="background:#1a0a2e;">🔒 개인정보 관련</option>
+            <option value="copyright" style="background:#1a0a2e;">⚖️ 저작권 관련</option>
+            <option value="other" style="background:#1a0a2e;">📌 기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">문의 내용</label>
+          <textarea id="message" name="message" placeholder="문의 내용을 자세히 적어주세요..." required minlength="10" maxlength="2000"></textarea>
+        </div>
+        <!-- 스팸 방지 허니팟 -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="[상현닮은꼴] 문의가 도착했습니다">
+        <button type="submit" class="btn-submit" id="submit-btn">🗡️ 문의 보내기</button>
+        <div class="form-msg" id="form-success">
+          ✅ 문의가 성공적으로 전송되었습니다! 빠른 시일 내에 답변 드리겠습니다.
+        </div>
+        <div class="form-msg" id="form-error">
+          ❌ 전송에 실패했습니다. 잠시 후 다시 시도해주세요.
+        </div>
+      </form>
+    </div>
+
+    <!-- FAQ -->
+    <div class="content-section anim-in" style="animation-delay:0.2s">
+      <h2>❓ 자주 묻는 질문</h2>
+
+      <h3>Q. 카메라로 찍은 사진이 저장되나요?</h3>
+      <p>
+        아닙니다. 모든 이미지 처리는 사용자의 브라우저 내에서만 이루어지며, 사진은 외부 서버로
+        전송되거나 저장되지 않습니다. 분석이 완료되는 즉시 데이터는 폐기됩니다.
+      </p>
+
+      <h3>Q. 분석 결과가 정확한가요?</h3>
+      <p>
+        본 서비스는 엔터테인먼트 목적으로 제작된 AI 분석 도구입니다. 결과는 재미로 즐기는
+        용도이며, 과학적·의학적 분석 도구가 아닙니다. 결과에 너무 진지하게 임하지 않아도 됩니다 😄
+      </p>
+
+      <h3>Q. 어떤 브라우저에서 사용할 수 있나요?</h3>
+      <p>
+        Chrome, Safari, Firefox, Edge 등 최신 버전의 브라우저에서 이용 가능합니다.
+        카메라 기능은 HTTPS 환경에서만 동작하며, 브라우저의 카메라 접근 허용이 필요합니다.
+      </p>
+
+      <h3>Q. 모바일에서도 되나요?</h3>
+      <p>
+        네! iOS Safari, Android Chrome에서도 이용 가능합니다. 이미지 업로드 탭을 선택하면
+        앨범에서 사진을 직접 업로드하거나 카메라로 촬영할 수 있습니다.
+      </p>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="/">홈</a>
+      <a href="/about.html">소개</a>
+      <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/contact.html">문의하기</a>
+    </div>
+    <div class="footer-copy">
+      DEMON SLAYER · UPPER MOON ANALYZER<br>
+      귀멸의 칼날 © 吾峠呼世晴 / 集英社
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() { document.getElementById('nav-mobile').classList.toggle('open'); }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.site-nav')) document.getElementById('nav-mobile').classList.remove('open');
+    });
+
+    // Formspree AJAX 제출
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const successMsg = document.getElementById('form-success');
+      const errorMsg = document.getElementById('form-error');
+
+      // 기본 유효성 검사
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) {
+        errorMsg.textContent = '⚠️ 이름, 이메일, 문의 내용을 모두 입력해주세요.';
+        errorMsg.className = 'form-msg error';
+        return;
+      }
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(email)) {
+        errorMsg.textContent = '⚠️ 올바른 이메일 주소를 입력해주세요.';
+        errorMsg.className = 'form-msg error';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '전송 중...';
+      successMsg.className = 'form-msg';
+      errorMsg.className = 'form-msg';
+
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          this.reset();
+          successMsg.className = 'form-msg success';
+          btn.textContent = '✅ 전송 완료';
+        } else {
+          throw new Error('서버 오류');
+        }
+      } catch {
+        errorMsg.textContent = '❌ 전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+        errorMsg.className = 'form-msg error';
+        btn.disabled = false;
+        btn.textContent = '🗡️ 문의 보내기';
+      }
+    });
+
+    // 배경 파티클
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      class Particle {
+        constructor() { this.reset(true); }
+        reset(init) {
+          this.x = Math.random() * W; this.y = init ? Math.random() * H : H + 10;
+          this.size = Math.random() * 2 + 0.5; this.speedY = -(Math.random() * 0.5 + 0.15);
+          this.speedX = (Math.random() - 0.5) * 0.25; this.opacity = Math.random() * 0.4 + 0.08;
+          this.color = Math.random() > 0.5 ? `rgba(192,57,43,${this.opacity})` : `rgba(240,192,64,${this.opacity * 0.6})`;
+        }
+        update() { this.x += this.speedX; this.y += this.speedY; if (this.y < -10) this.reset(); }
+        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
+      }
+      for (let i = 0; i < 60; i++) particles.push(new Particle());
+      (function animate() { ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); })();
+    })();
+  </script>
+</body>
+</html>

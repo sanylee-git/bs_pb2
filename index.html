@@ -3,116 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상현 닮은꼴 찾기 | 귀멸의 칼날</title>
+  <title>상현 닮은꼴 찾기 | 귀멸의 칼날 AI 분석기</title>
+  <meta name="description" content="귀멸의 칼날 상현 닮은꼴 AI 분석기! 내 얼굴이 코쿠시보·도우마·아카자 등 어떤 상현 귀신과 닮았는지 AI로 분석해보세요. 웹캠 또는 사진 업로드 지원.">
+  <meta property="og:title" content="귀멸의 칼날 상현 닮은꼴 AI 분석기">
+  <meta property="og:description" content="당신은 어떤 상현을 닮았을까? AI로 분석해보세요!">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://bs-pb2.web.app/">
   <meta name="google-adsense-account" content="ca-pub-9688338422874533">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9688338422874533"
-       crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9688338422874533" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
   <style>
-    :root {
-      --crimson: #c0392b;
-      --deep-crimson: #7b1010;
-      --gold: #f0c040;
-      --gold-glow: #ffd700;
-      --purple: #5c0a8a;
-      --dark-bg: #05050f;
-      --card-bg: rgba(10, 5, 25, 0.85);
-      --border-glow: rgba(192, 57, 43, 0.6);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background-color: var(--dark-bg);
-      font-family: 'Noto Sans KR', sans-serif;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* ── 배경 파티클 캔버스 ── */
-    #bg-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ── 배경 그라디언트 ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(92, 10, 138, 0.18) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(192, 57, 43, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 60% 80%, rgba(123, 16, 16, 0.12) 0%, transparent 50%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ── 전체 레이아웃 ── */
+    /* ── index 전용 스타일 ── */
     .wrapper {
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 16px 60px;
+      padding: calc(var(--nav-h) + 32px) 16px 0;
     }
 
-    /* ── 헤더 ── */
-    header {
+    /* 헤더 */
+    .site-header {
       width: 100%;
       text-align: center;
-      padding: 40px 20px 20px;
-      position: relative;
+      padding: 32px 20px 16px;
     }
-
     .header-deco {
       font-family: 'Cinzel Decorative', cursive;
-      font-size: clamp(10px, 2vw, 13px);
+      font-size: clamp(10px, 2vw, 12px);
       letter-spacing: 6px;
       color: var(--gold);
       text-transform: uppercase;
       opacity: 0.8;
       margin-bottom: 12px;
-      animation: fadeSlideDown 1s ease both;
+      animation: fadeSlideDown 0.9s ease both;
     }
-
     .title-jp {
-      font-size: clamp(28px, 6vw, 56px);
+      font-size: clamp(30px, 7vw, 58px);
       font-weight: 900;
-      line-height: 1;
+      line-height: 1.05;
       letter-spacing: 2px;
       background: linear-gradient(135deg, #ffffff 0%, var(--gold) 50%, var(--crimson) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       filter: drop-shadow(0 0 20px rgba(192,57,43,0.5));
-      animation: fadeSlideDown 1s 0.1s ease both;
+      animation: fadeSlideDown 0.9s 0.08s ease both;
     }
-
     .title-sub {
-      font-size: clamp(13px, 2.5vw, 18px);
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 4px;
-      margin-top: 8px;
-      animation: fadeSlideDown 1s 0.2s ease both;
+      font-size: clamp(13px, 2.5vw, 17px);
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 3px;
+      margin-top: 10px;
+      animation: fadeSlideDown 0.9s 0.16s ease both;
     }
-
-    /* 상현 뱃지 */
     .badge-row {
       display: flex;
       justify-content: center;
       gap: 6px;
-      margin-top: 18px;
+      margin-top: 16px;
       flex-wrap: wrap;
-      animation: fadeSlideDown 1s 0.3s ease both;
+      animation: fadeSlideDown 0.9s 0.24s ease both;
     }
     .badge {
       font-size: 11px;
@@ -123,60 +78,51 @@
       color: #ff8a80;
       letter-spacing: 2px;
     }
-
-    /* 구분선 */
     .divider {
       width: min(500px, 90%);
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--crimson), var(--gold), var(--crimson), transparent);
-      margin: 28px auto;
-      animation: fadeSlideDown 1s 0.35s ease both;
+      margin: 24px auto;
+      animation: fadeSlideDown 0.9s 0.28s ease both;
     }
 
-    /* ── 메인 카드 ── */
+    /* ── AI 도구 카드 ── */
     .main-card {
       background: var(--card-bg);
       border: 1px solid rgba(192,57,43,0.3);
       border-radius: 24px;
-      padding: 32px 28px;
+      padding: 28px 24px;
       width: min(520px, 100%);
       box-shadow:
         0 0 60px rgba(192,57,43,0.1),
         0 0 120px rgba(92,10,138,0.08),
         inset 0 1px 0 rgba(255,255,255,0.05);
       backdrop-filter: blur(20px);
-      animation: fadeSlideUp 1s 0.4s ease both;
+      animation: fadeSlideUp 0.9s 0.32s ease both;
+      position: relative;
     }
 
-    /* ── 스캔 프레임 ── */
+    /* 스캔 프레임 */
     .scan-frame {
       position: relative;
       width: 240px;
       height: 240px;
-      margin: 0 auto 24px;
+      margin: 0 auto 22px;
     }
-
-    /* 코너 장식 */
-    .scan-frame::before,
-    .scan-frame::after,
-    .scan-inner::before,
-    .scan-inner::after {
+    .scan-frame::before, .scan-frame::after,
+    .scan-inner::before, .scan-inner::after {
       content: '';
       position: absolute;
       width: 24px; height: 24px;
       border-color: var(--gold);
       border-style: solid;
     }
-    .scan-frame::before { top:0; left:0; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
-    .scan-frame::after  { top:0; right:0; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
-    .scan-inner::before { bottom:0; left:0; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
-    .scan-inner::after  { bottom:0; right:0; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
-    .scan-inner {
-      position: absolute;
-      inset: 0;
-    }
+    .scan-frame::before { top:0; left:0;  border-width:3px 0 0 3px; border-radius:4px 0 0 0; }
+    .scan-frame::after  { top:0; right:0; border-width:3px 3px 0 0; border-radius:0 4px 0 0; }
+    .scan-inner::before { bottom:0; left:0;  border-width:0 0 3px 3px; border-radius:0 0 0 4px; }
+    .scan-inner::after  { bottom:0; right:0; border-width:0 3px 3px 0; border-radius:0 0 4px 0; }
+    .scan-inner { position: absolute; inset: 0; }
 
-    /* 회전하는 링 */
     .ring {
       position: absolute;
       inset: -12px;
@@ -196,10 +142,8 @@
     }
     .scanning .ring { opacity: 1; }
 
-    /* 웹캠 / 이미지 표시 */
     #webcam-container {
-      width: 220px;
-      height: 220px;
+      width: 220px; height: 220px;
       overflow: hidden;
       border-radius: 16px;
       position: absolute;
@@ -213,32 +157,22 @@
     #webcam-container canvas,
     #webcam-container video,
     #preview-img {
-      width: 220px;
-      height: 220px;
+      width: 220px; height: 220px;
       object-fit: cover;
       border-radius: 16px;
     }
 
-    /* 빈 상태 아이콘 */
     .cam-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
       color: rgba(255,255,255,0.3);
-      font-size: 13px;
-      text-align: center;
+      font-size: 13px; text-align: center;
     }
-    .cam-placeholder svg {
-      width: 48px; height: 48px;
-      opacity: 0.3;
-    }
+    .cam-placeholder svg { width: 48px; height: 48px; opacity: 0.3; }
 
-    /* 스캔 라인 */
     .scan-line {
       position: absolute;
-      left: 8px; right: 8px;
-      height: 2px;
+      left: 8px; right: 8px; height: 2px;
       background: linear-gradient(90deg, transparent, var(--crimson), rgba(255,0,0,0.8), var(--crimson), transparent);
       top: 8px;
       animation: scanLine 2s ease-in-out infinite;
@@ -248,27 +182,22 @@
     }
     .scanning .scan-line { opacity: 1; }
 
-    /* ── 탭: 카메라 / 업로드 ── */
+    /* 탭 */
     .mode-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
+      display: flex; gap: 8px;
+      margin-bottom: 18px;
       background: rgba(255,255,255,0.04);
-      border-radius: 12px;
-      padding: 4px;
+      border-radius: 12px; padding: 4px;
     }
     .tab-btn {
-      flex: 1;
-      padding: 9px;
-      border: none;
-      border-radius: 9px;
+      flex: 1; padding: 10px;
+      border: none; border-radius: 9px;
       background: transparent;
       color: rgba(255,255,255,0.45);
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.25s;
-      letter-spacing: 1px;
+      font-size: 13px; cursor: pointer;
+      transition: all 0.25s; letter-spacing: 1px;
+      min-height: 44px;
     }
     .tab-btn.active {
       background: linear-gradient(135deg, var(--deep-crimson), var(--purple));
@@ -276,38 +205,25 @@
       box-shadow: 0 2px 12px rgba(192,57,43,0.4);
     }
 
-    /* ── 버튼들 ── */
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
+    /* 버튼 */
+    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
     .btn-main {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
+      flex: 1; padding: 14px;
+      border: none; border-radius: 12px;
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 2px; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: all 0.3s; min-height: 50px;
     }
     .btn-main::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+      opacity: 0; transition: opacity 0.3s;
     }
     .btn-main:hover::before { opacity: 1; }
     .btn-main:active { transform: scale(0.97); }
-
     .btn-scan {
       background: linear-gradient(135deg, #8b0000 0%, #c0392b 50%, #8b0000 100%);
       background-size: 200% 100%;
@@ -315,37 +231,23 @@
       box-shadow: 0 4px 20px rgba(192,57,43,0.5);
       animation: shimmer 3s linear infinite;
     }
-    .btn-scan:hover {
-      box-shadow: 0 6px 28px rgba(192,57,43,0.7);
-      transform: translateY(-1px);
-    }
-    .btn-scan:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-      animation: none;
-    }
-
+    .btn-scan:hover { box-shadow: 0 6px 28px rgba(192,57,43,0.7); transform: translateY(-1px); }
+    .btn-scan:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
     .btn-reset {
       background: rgba(255,255,255,0.07);
       color: rgba(255,255,255,0.6);
       border: 1px solid rgba(255,255,255,0.1);
-      flex: 0 0 auto;
-      padding: 14px 18px;
-      font-size: 18px;
+      flex: 0 0 auto; padding: 14px 18px; font-size: 18px;
     }
     .btn-reset:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
-    /* 파일 업로드 */
+    /* 업로드 */
     .upload-area {
       border: 2px dashed rgba(192,57,43,0.35);
-      border-radius: 14px;
-      padding: 28px;
-      text-align: center;
-      cursor: pointer;
+      border-radius: 14px; padding: 28px;
+      text-align: center; cursor: pointer;
       transition: all 0.3s;
-      background: rgba(192,57,43,0.04);
-      display: none;
+      background: rgba(192,57,43,0.04); display: none;
     }
     .upload-area.active-tab { display: block; }
     .upload-area:hover { border-color: var(--crimson); background: rgba(192,57,43,0.08); }
@@ -354,160 +256,16 @@
     .upload-area p strong { color: var(--gold); }
     #file-input { display: none; }
 
-    /* ── 결과 섹션 ── */
-    #result-section {
-      width: min(520px, 100%);
-      margin-top: 20px;
-      display: none;
-    }
-    #result-section.show { display: block; animation: fadeSlideUp 0.6s ease both; }
-
-    /* 최상위 결과 카드 */
-    .result-hero {
-      background: var(--card-bg);
-      border: 1px solid rgba(240,192,64,0.3);
-      border-radius: 20px;
-      padding: 28px;
-      text-align: center;
-      box-shadow:
-        0 0 40px rgba(240,192,64,0.08),
-        0 0 80px rgba(192,57,43,0.06);
-      backdrop-filter: blur(20px);
-      margin-bottom: 14px;
-    }
-
-    .result-label {
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      opacity: 0.8;
-    }
-    .result-name {
-      font-size: clamp(28px, 7vw, 42px);
-      font-weight: 900;
-      background: linear-gradient(135deg, #fff 0%, var(--gold) 60%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 16px rgba(240,192,64,0.4));
-      letter-spacing: 3px;
-      margin-bottom: 4px;
-    }
-    .result-rank {
-      font-size: 13px;
-      color: var(--crimson);
-      letter-spacing: 3px;
-      margin-bottom: 20px;
-    }
-    .result-desc {
-      font-size: 13px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.7;
-      max-width: 320px;
-      margin: 0 auto 20px;
-    }
-    .result-score-big {
-      font-size: 52px;
-      font-weight: 900;
-      color: var(--gold);
-      text-shadow: 0 0 30px rgba(240,192,64,0.5);
-      line-height: 1;
-    }
-    .result-score-label {
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 2px;
-      margin-top: 4px;
-    }
-
-    /* 상현 눈 장식 */
-    .demon-eye {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 16px;
-      position: relative;
-    }
-    .demon-eye svg { width: 100%; height: 100%; }
-
-    /* 모든 결과 리스트 */
-    .all-results {
-      background: var(--card-bg);
-      border: 1px solid rgba(192,57,43,0.2);
-      border-radius: 20px;
-      padding: 24px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 40px rgba(92,10,138,0.06);
-    }
-    .all-results h3 {
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 18px;
-      text-transform: uppercase;
-    }
-
-    .pred-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .pred-row:last-child { margin-bottom: 0; }
-
-    .pred-name {
-      font-size: 13px;
-      font-weight: 700;
-      min-width: 80px;
-      color: rgba(255,255,255,0.85);
-    }
-    .pred-bar-wrap {
-      flex: 1;
-      height: 6px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .pred-bar {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
-      width: 0%;
-    }
-    .pred-bar.top {
-      background: linear-gradient(90deg, var(--deep-crimson), var(--gold));
-      box-shadow: 0 0 8px rgba(240,192,64,0.4);
-    }
-    .pred-bar.other {
-      background: linear-gradient(90deg, rgba(92,10,138,0.8), rgba(192,57,43,0.6));
-    }
-    .pred-pct {
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      min-width: 38px;
-      text-align: right;
-    }
-    .pred-pct.top { color: var(--gold); font-weight: 700; }
-
-    /* ── 로딩 ── */
+    /* 로딩 */
     .loading-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(5,5,15,0.85);
+      position: absolute; inset: 0;
+      background: rgba(5,5,15,0.88);
       border-radius: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      z-index: 10;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      z-index: 10; opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     .loading-overlay.show { opacity: 1; pointer-events: all; }
-
     .spinner {
       width: 40px; height: 40px;
       border: 3px solid rgba(192,57,43,0.2);
@@ -516,77 +274,225 @@
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    .loading-text {
-      font-size: 12px;
-      letter-spacing: 3px;
-      color: rgba(255,255,255,0.5);
+    .loading-text { font-size: 12px; letter-spacing: 3px; color: rgba(255,255,255,0.5); }
+
+    /* 결과 */
+    #result-section { width: min(520px, 100%); margin-top: 18px; display: none; }
+    #result-section.show { display: block; animation: fadeSlideUp 0.6s ease both; }
+
+    .result-hero {
+      background: var(--card-bg);
+      border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 20px; padding: 26px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      margin-bottom: 14px;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    .demon-eye { width: 60px; height: 60px; margin: 0 auto 14px; }
+    .demon-eye svg { width: 100%; height: 100%; }
+    .result-label { font-size: 11px; letter-spacing: 4px; color: var(--gold); opacity: 0.8; margin-bottom: 8px; }
+    .result-name {
+      font-size: clamp(28px, 7vw, 42px); font-weight: 900;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 60%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 16px rgba(240,192,64,0.4));
+      letter-spacing: 3px; margin-bottom: 4px;
+    }
+    .result-rank { font-size: 13px; color: var(--crimson); letter-spacing: 3px; margin-bottom: 18px; }
+    .result-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; max-width: 320px; margin: 0 auto 18px; }
+    .result-score-big { font-size: 52px; font-weight: 900; color: var(--gold); text-shadow: 0 0 30px rgba(240,192,64,0.5); line-height: 1; }
+    .result-score-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-top: 4px; }
+
+    .all-results {
+      background: var(--card-bg);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 20px; padding: 22px;
+      backdrop-filter: blur(20px);
+    }
+    .all-results h3 { font-size: 11px; letter-spacing: 4px; color: rgba(255,255,255,0.4); margin-bottom: 16px; text-transform: uppercase; }
+    .pred-row { display: flex; align-items: center; gap: 12px; margin-bottom: 13px; }
+    .pred-row:last-child { margin-bottom: 0; }
+    .pred-name { font-size: 13px; font-weight: 700; min-width: 72px; color: rgba(255,255,255,0.85); }
+    .pred-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; }
+    .pred-bar { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); width: 0%; }
+    .pred-bar.top { background: linear-gradient(90deg, var(--deep-crimson), var(--gold)); box-shadow: 0 0 8px rgba(240,192,64,0.4); }
+    .pred-bar.other { background: linear-gradient(90deg, rgba(92,10,138,0.8), rgba(192,57,43,0.6)); }
+    .pred-pct { font-size: 12px; color: rgba(255,255,255,0.5); min-width: 38px; text-align: right; }
+    .pred-pct.top { color: var(--gold); font-weight: 700; }
+
+    /* 상태 메시지 */
+    #status-msg { text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px; letter-spacing: 1px; min-height: 18px; }
+
+    /* ── 콘텐츠 섹션 (가이드) ── */
+    .guide-section {
+      width: min(760px, 100%);
+      margin-top: 50px;
+    }
+    .guide-title {
+      text-align: center;
+      font-size: clamp(18px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .guide-title-sub {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+    }
+    .guide-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 20px;
+      padding: 26px 24px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(16px);
+    }
+    .guide-card h2 {
+      font-size: 16px; font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(192,57,43,0.2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .guide-card h2 .rank-badge {
+      font-size: 10px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: rgba(192,57,43,0.2);
+      color: #ff8a80;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+    .guide-card p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.85;
+    }
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
     }
 
-    /* ── 푸터 ── */
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 2px;
-      line-height: 2;
+    /* How-to 섹션 */
+    .how-to { display: flex; flex-direction: column; gap: 12px; }
+    .how-step {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--deep-crimson), var(--crimson));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+    }
+    .step-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .step-text strong { color: #fff; }
+
+    /* FAQ */
+    .faq-item { margin-bottom: 20px; }
+    .faq-item:last-child { margin-bottom: 0; }
+    .faq-q { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+    .faq-a { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+
+    /* Disqus */
+    .disqus-wrap {
+      width: min(760px, 100%);
+      background: var(--card-bg);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-top: 16px;
+      backdrop-filter: blur(16px);
+    }
+    .disqus-title {
+      font-size: 14px; font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
     /* ── 애니메이션 ── */
     @keyframes fadeSlideDown {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(-18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
     @keyframes scanLine {
       0%   { top: 8px; }
       50%  { top: calc(100% - 8px); }
       100% { top: 8px; }
     }
-    @keyframes shimmer {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    @keyframes glitch {
-      0%   { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); transform: translate(-3px); }
-      25%  { clip-path: polygon(0 40%, 100% 40%, 100% 45%, 0 45%); transform: translate(3px); }
-      50%  { clip-path: polygon(0 70%, 100% 70%, 100% 73%, 0 73%); transform: translate(-2px); }
-      75%  { clip-path: polygon(0 88%, 100% 88%, 100% 91%, 0 91%); transform: translate(2px); }
-      100% { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); transform: translate(0); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 40px rgba(240,192,64,0.08), 0 0 80px rgba(192,57,43,0.06); }
-      50%       { box-shadow: 0 0 60px rgba(240,192,64,0.18), 0 0 100px rgba(192,57,43,0.12); }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 40px rgba(240,192,64,0.08), 0 0 80px rgba(192,57,43,0.06); }
+      50%      { box-shadow: 0 0 60px rgba(240,192,64,0.18), 0 0 100px rgba(192,57,43,0.12); }
     }
 
-    .result-hero { animation: pulse-glow 3s ease-in-out infinite; }
-
-    /* ── 반응형 ── */
-    @media (max-width: 400px) {
-      .main-card { padding: 22px 16px; }
+    /* ── 모바일 최적화 ── */
+    @media (max-width: 480px) {
+      .wrapper { padding-top: calc(var(--nav-h) + 16px); padding-left: 12px; padding-right: 12px; }
+      .main-card { padding: 20px 16px; }
       .scan-frame { width: 200px; height: 200px; }
       #webcam-container { width: 180px; height: 180px; }
       #webcam-container canvas,
       #webcam-container video,
       #preview-img { width: 180px; height: 180px; }
+      .guide-card { padding: 20px 16px; }
+      .char-grid { grid-template-columns: 1fr; }
+      .btn-main { font-size: 13px; }
+      .disqus-wrap { padding: 20px 16px; }
+    }
+    @media (max-width: 360px) {
+      .title-jp { font-size: 26px; }
+      .scan-frame { width: 180px; height: 180px; }
+      #webcam-container, #webcam-container canvas,
+      #webcam-container video, #preview-img { width: 160px; height: 160px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 배경 파티클 -->
   <canvas id="bg-canvas"></canvas>
+
+  <!-- 네비게이션 -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">鬼滅 上弦</a>
+      <div class="nav-links">
+        <a href="/" class="active">홈</a>
+        <a href="/about.html">소개</a>
+        <a href="/contact.html">문의</a>
+        <a href="/privacy.html">개인정보</a>
+      </div>
+      <button class="nav-hamburger" aria-label="메뉴 열기" onclick="toggleNav()">☰</button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/" class="active">홈</a>
+      <a href="/about.html">소개</a>
+      <a href="/contact.html">문의</a>
+      <a href="/privacy.html">개인정보</a>
+    </div>
+  </nav>
 
   <div class="wrapper">
 
     <!-- 헤더 -->
-    <header>
+    <header class="site-header">
       <div class="header-deco">Demon Slayer · Upper Moon</div>
       <h1 class="title-jp">鬼滅の刃<br>상현 닮은꼴</h1>
       <p class="title-sub">당신은 어떤 상현을 닮았을까?</p>
@@ -602,29 +508,24 @@
 
     <div class="divider"></div>
 
-    <!-- 메인 카드 -->
-    <div class="main-card" style="position:relative;">
-
-      <!-- 로딩 오버레이 -->
+    <!-- AI 분석 카드 -->
+    <div class="main-card">
       <div class="loading-overlay" id="loading-overlay">
         <div class="spinner"></div>
         <div class="loading-text">모델 불러오는 중...</div>
       </div>
 
-      <!-- 탭 -->
       <div class="mode-tabs">
         <button class="tab-btn active" id="tab-cam" onclick="switchTab('cam')">📷 카메라</button>
         <button class="tab-btn" id="tab-upload" onclick="switchTab('upload')">🖼️ 이미지 업로드</button>
       </div>
 
-      <!-- 스캔 프레임 (카메라 탭) -->
       <div class="scan-frame" id="scan-frame">
         <div class="scan-inner">
           <div class="ring"></div>
           <div class="ring ring-2"></div>
           <div class="scan-line"></div>
           <div id="webcam-container">
-            <!-- 기본 플레이스홀더 -->
             <div class="cam-placeholder" id="cam-placeholder">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -636,7 +537,6 @@
         </div>
       </div>
 
-      <!-- 업로드 영역 -->
       <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -644,40 +544,29 @@
           <line x1="12" y1="3" x2="12" y2="15"/>
         </svg>
         <p><strong>클릭</strong>하거나 이미지를 드래그 &amp; 드롭</p>
-        <p style="margin-top:6px; font-size:11px;">JPG, PNG, WEBP 지원</p>
+        <p style="margin-top:5px;font-size:11px;">JPG · PNG · WEBP 지원</p>
         <input type="file" id="file-input" accept="image/*" onchange="onFileSelect(event)">
-        <!-- 업로드된 이미지 미리보기 -->
-        <img id="preview-img" style="display:none; margin-top:16px; border-radius:12px; max-height:200px; object-fit:cover;">
+        <img id="preview-img" style="display:none;margin-top:14px;border-radius:12px;max-height:200px;object-fit:cover;width:100%;">
       </div>
 
-      <!-- 버튼 그룹 -->
       <div class="btn-group">
-        <button class="btn-main btn-scan" id="start-btn" onclick="handleStart()" disabled>
-          ⚡ 분석 시작
-        </button>
+        <button class="btn-main btn-scan" id="start-btn" onclick="handleStart()" disabled>⚡ 분석 시작</button>
         <button class="btn-main btn-reset" title="초기화" onclick="resetAll()">↺</button>
       </div>
 
-      <!-- 상태 메시지 -->
-      <p id="status-msg" style="text-align:center; font-size:12px; color:rgba(255,255,255,0.3); margin-top:12px; letter-spacing:1px; min-height:18px;">
-        모델을 준비 중입니다...
-      </p>
+      <p id="status-msg">모델을 준비 중입니다...</p>
     </div>
 
     <!-- 결과 섹션 -->
     <div id="result-section">
-
-      <!-- 최상위 결과 -->
       <div class="result-hero">
         <div class="demon-eye">
-          <!-- 상현의 눈 SVG 아이콘 -->
           <svg viewBox="0 0 60 60" fill="none">
             <ellipse cx="30" cy="30" rx="28" ry="16" fill="rgba(192,57,43,0.15)" stroke="rgba(192,57,43,0.5)" stroke-width="1.5"/>
             <ellipse cx="30" cy="30" rx="12" ry="12" fill="#1a0010" stroke="rgba(192,57,43,0.8)" stroke-width="1"/>
             <ellipse cx="30" cy="30" rx="7" ry="7" fill="#c0392b" opacity="0.9"/>
             <ellipse cx="30" cy="30" rx="3.5" ry="3.5" fill="#0a0005"/>
             <ellipse cx="32" cy="28" rx="1.5" ry="1.5" fill="rgba(255,255,255,0.6)"/>
-            <!-- 상현 문양 -->
             <text x="30" y="33" text-anchor="middle" font-size="5" fill="rgba(240,192,64,0.7)" font-family="serif">上弦</text>
           </svg>
         </div>
@@ -688,54 +577,238 @@
         <div class="result-score-big" id="result-score">0%</div>
         <div class="result-score-label">유사도</div>
       </div>
-
-      <!-- 전체 확률 -->
       <div class="all-results">
         <h3>전체 분석 결과</h3>
         <div id="label-container"></div>
       </div>
-
     </div>
 
-    <footer>
-      DEMON SLAYER · UPPER MOON ANALYZER<br>
-      본 서비스는 Teachable Machine AI를 사용합니다<br>
-      귀멸의 칼날 © 吾峠呼世晴 / 集英社
+    <!-- ═══════════════════════════════════════════
+         콘텐츠 가이드 섹션 (800단어 이상)
+         ═══════════════════════════════════════════ -->
+    <section class="guide-section">
+
+      <!-- 이용 방법 -->
+      <div class="guide-card">
+        <h2>⚡ 이용 방법</h2>
+        <div class="how-to">
+          <div class="how-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>카메라 탭</strong> 선택 후 '분석 시작'을 클릭하면 웹캠이 활성화됩니다. 브라우저의 카메라 접근 허용을 눌러주세요.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">2</div>
+            <div class="step-text">얼굴이 <strong>프레임 중앙</strong>에 오도록 위치를 조절하세요. 밝은 조명이 있는 환경에서 더 정확한 결과를 얻을 수 있습니다.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>'스냅샷 찍기'</strong>를 누르면 해당 순간의 이미지를 AI가 분석합니다. 결과가 아래에 표시됩니다.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>이미지 업로드 탭</strong>에서는 사진 파일을 드래그&amp;드롭하거나 클릭하여 업로드할 수 있습니다. 모바일에서는 갤러리 사진을 바로 선택할 수 있습니다.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">5</div>
+            <div class="step-text">분석 결과로 <strong>가장 닮은 상현 캐릭터</strong>와 각 캐릭터별 유사도 퍼센트가 표시됩니다. 결과를 스크린샷 찍어 친구와 공유해보세요!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상현이란? -->
+      <div class="guide-card">
+        <h2>👁️ 상현(上弦)이란?</h2>
+        <p>
+          귀멸의 칼날에서 <strong>상현(上弦)</strong>은 귀신들의 왕 키부츠지 무잔의 친위대라 할 수 있는
+          최강의 귀신 집단이다. 상현 일(壱)부터 상현 육(陸)까지 총 6등급으로 이루어져 있으며,
+          숫자가 낮을수록 더 강력한 귀신임을 의미한다.
+        </p>
+        <p>
+          상현들은 일반 귀신과는 차원이 다른 전투력을 보유하고 있으며, 각자 고유한
+          <strong>혈귀술(血鬼術)</strong>이라 불리는 특수 능력을 구사한다. 이들은 수백 년에 걸쳐
+          인간의 피를 흡수하며 살아남은 존재들로, 인간의 감정과 기억, 과거의 상처를 여전히 안고 살아간다.
+        </p>
+        <p>
+          귀살대(鬼殺隊)의 핵심 전력인 기둥(柱)들도 상현과 맞붙으면 목숨을 잃을 수 있을 만큼
+          압도적인 강함을 자랑한다. 시리즈 전반에 걸쳐 최강의 빌런으로 군림하며
+          팬들에게 강렬한 인상을 남긴 귀멸의 칼날 최고 인기 캐릭터 그룹이기도 하다.
+        </p>
+      </div>
+
+      <!-- 캐릭터 카드 그리드 -->
+      <p class="guide-title" style="margin-top:8px;">상현 캐릭터 가이드</p>
+      <p class="guide-title-sub">Upper Moon Character Encyclopedia</p>
+
+      <div class="char-grid">
+
+        <div class="guide-card">
+          <h2>코쿠시보 <span class="rank-badge">상현 壱</span></h2>
+          <p>
+            무잔을 제외한 <strong>귀신 중 최강</strong>의 존재. 본명은 미치카츠 츠기쿠니로,
+            귀살대 역사상 가장 위대한 검사 요리이치 츠기쿠니의 쌍둥이 형이다.
+            뛰어난 형에 대한 열등감으로 스스로 귀신이 되기를 선택한 비극적 인물.
+            스스로 창시한 <strong>달의 호흡(月の呼吸)</strong>과 여섯 개의 눈,
+            온몸에 돋아난 칼날이 특징으로, 세 명의 기둥이 합력해도 쉽게 쓰러뜨리기 어렵다.
+          </p>
+        </div>
+
+        <div class="guide-card">
+          <h2>도우마 <span class="rank-badge">상현 弐</span></h2>
+          <p>
+            무지개색 눈을 가진 미형의 귀신. 인간 시절부터 <strong>어떤 감정도 느끼지 못하는</strong>
+            공허한 영혼의 소유자로, 허무주의적 세계관을 가진다.
+            화려한 부채로 얼음과 냉기를 자유자재로 다루는 혈귀술을 구사한다.
+            겉으로는 온화하고 매력적이지만 인간을 단순한 식사로 여기는 잔혹한 본성을 지닌다.
+            카나오·이노스케가 합력하고 시노부의 희생으로 겨우 격파하는 역대급 강적.
+          </p>
+        </div>
+
+        <div class="guide-card">
+          <h2>아카자 <span class="rank-badge">상현 参</span></h2>
+          <p>
+            <strong>오로지 강자와의 싸움만을 추구</strong>하는 전투 귀신. 인간 시절 이름은 핫케이쥬로로,
+            아버지를 위해 도둑질을 하다 검사 도장에 입문한 불우한 과거를 가진다.
+            수련으로 쌓은 무술이 귀신의 힘과 결합한 파괴적 전투력의 소유자.
+            온몸에 새겨진 붉은 문신과 격렬한 전투 스타일로 팬들에게 강렬한 인상을 남겼다.
+            탄지로와의 격전에서 인간 시절 기억과 마주하며 스스로 붕괴한다.
+          </p>
+        </div>
+
+        <div class="guide-card">
+          <h2>한텐구 <span class="rank-badge">상현 肆</span></h2>
+          <p>
+            극도의 겁쟁이 귀신이지만, <strong>두려움이라는 감정 자체가 강력한 분신을 탄생</strong>시킨다.
+            공포·기쁨·분노·슬픔 등 각각의 감정이 독립적인 귀신으로 분열되어 싸운다.
+            본체는 오히려 가장 약하지만 몸을 숨기며 분신들로 싸우는 전략을 구사한다.
+            극도의 겁쟁이라는 설정이 역설적으로 공략하기 가장 까다로운 상현 중 하나로 만들었다.
+          </p>
+        </div>
+
+        <div class="guide-card">
+          <h2>교코 <span class="rank-badge">상현 伍</span></h2>
+          <p>
+            물고기 인간처럼 기이한 외모를 지닌 귀신으로, <strong>극도로 일그러진 미적 감각</strong>을 자랑한다.
+            거대한 항아리들을 근거지로 삼아 이동하며, 물고기 형태의 혈귀술 조각들로 공격한다.
+            자신의 작품에 극도로 집착하며 자기 도취적인 성격을 가진다.
+            무이치로 토키토와의 격전에서 쓰러지지만, 독특한 비주얼로 팬들에게 오래 기억되는 캐릭터다.
+          </p>
+        </div>
+
+        <div class="guide-card">
+          <h2>규타로 &amp; 다키 <span class="rank-badge">상현 陸</span></h2>
+          <p>
+            <strong>오빠 규타로와 여동생 다키</strong>, 두 귀신이 하나의 육체를 공유하는 독특한 구조.
+            규타로는 독이 담긴 낫으로 잔혹하게 싸우며, 다키는 오비(帯)라 불리는 대형 띠를 이용한 현란한 공격을 펼친다.
+            남매는 인간 시절 유흥가에서 극도로 비참한 삶을 살았으며, 그 고통이 귀신이 된 후에도
+            강력한 유대감으로 이어진다. 탄지로·젠이츠·이노스케 셋이 힘을 합쳐 겨우 쓰러뜨리는 강적.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- AI 작동 원리 -->
+      <div class="guide-card">
+        <h2>🧠 AI 작동 원리</h2>
+        <p>
+          본 서비스는 <strong>Google Teachable Machine</strong>을 기반으로 학습된 딥러닝 이미지 분류 모델을 사용합니다.
+          TensorFlow.js 라이브러리를 통해 브라우저 내에서 직접 AI 추론이 이루어지며,
+          사용자의 이미지는 외부 서버로 전송되지 않습니다.
+        </p>
+        <p>
+          모든 처리는 사용자의 기기(브라우저) 안에서만 진행되므로 개인 정보가 외부로 유출될 위험이 없습니다.
+          AI 모델은 얼굴 형태, 이목구비 비율 등의 특징을 분석하여 어떤 캐릭터와 가장 유사한 특징을 가지는지
+          수치화합니다. 결과는 <strong>재미로 즐기는 엔터테인먼트 콘텐츠</strong>이며, 진지한 생체인식 도구가 아닙니다.
+        </p>
+      </div>
+
+      <!-- FAQ -->
+      <div class="guide-card">
+        <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+        <div class="faq-item">
+          <p class="faq-q">Q. 촬영된 이미지가 저장되나요?</p>
+          <p class="faq-a">아닙니다. 모든 이미지 분석은 브라우저 내에서 실시간으로 처리되며, 서버나 외부에 저장되지 않습니다. 분석이 끝나는 즉시 데이터는 삭제됩니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 분석 결과가 항상 정확한가요?</p>
+          <p class="faq-a">본 서비스는 AI 딥러닝 모델을 기반으로 하지만, 순수한 엔터테인먼트 목적의 콘텐츠입니다. 결과는 참고용으로만 활용해주세요. 여러 번 시도하거나 다양한 사진으로 해보면 더 재미있게 즐길 수 있습니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 모바일에서도 사용 가능한가요?</p>
+          <p class="faq-a">네, iOS Safari와 Android Chrome에서 이용 가능합니다. '이미지 업로드' 탭을 이용하면 갤러리 사진을 업로드하거나 카메라로 바로 촬영할 수 있습니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 어떤 캐릭터가 분석 대상인가요?</p>
+          <p class="faq-a">코쿠시보(상현 壱), 도우마(상현 弐), 아카자(상현 参), 한텐구(상현 肆), 교코(상현 伍), 규타로/다키(상현 陸) 총 상현 6등급의 캐릭터가 포함되어 있습니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 카메라 권한을 거부했어요.</p>
+          <p class="faq-a">카메라 탭 대신 '이미지 업로드' 탭을 이용해주세요. 사진 파일을 직접 선택하거나 드래그&amp;드롭하여 분석할 수 있습니다. 카메라 권한은 브라우저 설정에서 언제든지 변경 가능합니다.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Disqus 댓글 -->
+    <div class="disqus-wrap">
+      <p class="disqus-title">💬 댓글 · Comments</p>
+      <div id="disqus_thread"></div>
+      <noscript>댓글을 보려면 JavaScript를 활성화하세요. <a href="https://disqus.com/?ref_noscript">Disqus로 제공되는 댓글</a></noscript>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="site-footer" style="width:100%;">
+      <div class="footer-links">
+        <a href="/">홈</a>
+        <a href="/about.html">소개</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+        <a href="/contact.html">문의하기</a>
+      </div>
+      <div class="footer-copy">
+        DEMON SLAYER · UPPER MOON ANALYZER<br>
+        본 서비스는 Teachable Machine AI를 사용합니다<br>
+        귀멸의 칼날 © 吾峠呼世晴 / 集英社
+      </div>
     </footer>
 
-  </div>
+  </div><!-- /.wrapper -->
 
+  <!-- ═══════════ JavaScript ═══════════ -->
   <script>
-    // ── 캐릭터 데이터베이스 ──
+    // ── 네비게이션 ──
+    function toggleNav() {
+      document.getElementById('nav-mobile').classList.toggle('open');
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.site-nav')) {
+        document.getElementById('nav-mobile').classList.remove('open');
+      }
+    });
+
+    // ── 캐릭터 DB ──
     const CHARACTER_DB = {
-      '코쿠시보': { rank: '상현 壱 (일)', desc: '최강의 귀신. 달의 호흡을 구사하는 자. 오니가시마 시대부터 살아남은 존재로, 여섯 개의 눈을 가진 절대자.' },
-      '도우마':   { rank: '상현 弐 (이)', desc: '냉혹한 미소 뒤에 감정이 없는 허무주의자. 팬을 이용한 냉기 술식의 사용자. 천부적인 아름다움을 지닌 상현.' },
-      '아카자':   { rank: '상현 参 (삼)', desc: '적혈귀술 "파괴살"의 달인. 강자와의 전투를 갈망하는 전투 귀신. 불굴의 의지와 파괴적인 전투력의 소유자.' },
-      '한텐구':   { rank: '상현 肆 (사)', desc: '강한 부정적 감정이 분열된 귀신. 극도의 겁쟁이지만 그 두려움이 강력한 분신들을 탄생시키는 존재.' },
-      '교코':     { rank: '상현 伍 (오)', desc: '기묘한 항아리 속에 거주하는 귀신. 극도로 독특한 미적 감각을 자랑하며 물고기 조각을 통한 공격을 펼친다.' },
-      '규타로':   { rank: '상현 陸 (육) · 오빠', desc: '다키와 함께 육체를 공유하는 상현. 독이 담긴 낫을 휘두르며 독기를 뿜어내는 잔혹한 전투자.' },
-      '다키':     { rank: '상현 陸 (육) · 여동생', desc: '규타로와 함께 육체를 공유하는 상현. 오비라 불리는 대형 띠를 이용한 현란한 술식의 사용자.' },
+      '코쿠시보': { rank: '상현 壱', desc: '최강의 귀신. 달의 호흡을 구사하는 절대자. 여섯 개의 눈과 온몸의 칼날이 특징.' },
+      '도우마':   { rank: '상현 弐', desc: '냉혹한 미소의 허무주의자. 팬을 이용한 냉기 혈귀술의 사용자. 천부적인 아름다움을 지닌 상현.' },
+      '아카자':   { rank: '상현 参', desc: '파괴살의 달인. 강자와의 전투를 갈망하는 전투 귀신. 불굴의 의지와 파괴적 전투력의 소유자.' },
+      '한텐구':   { rank: '상현 肆', desc: '두려움으로 분신을 만드는 귀신. 겁쟁이의 공포가 강력한 복수의 분신들을 탄생시킨다.' },
+      '교코':     { rank: '상현 伍', desc: '항아리 속에 거주하는 기이한 귀신. 독특한 미적 감각과 물고기 혈귀술의 소유자.' },
+      '규타로':   { rank: '상현 陸 · 오빠', desc: '다키와 육체를 공유하는 상현. 독이 담긴 낫을 휘두르며 독기를 뿜어내는 잔혹한 전투자.' },
+      '다키':     { rank: '상현 陸 · 여동생', desc: '규타로와 육체를 공유하는 상현. 오비라 불리는 대형 띠를 이용한 현란한 술식의 사용자.' },
     };
 
     function getCharInfo(className) {
-      // 부분 일치 검색
       for (const [key, val] of Object.entries(CHARACTER_DB)) {
         if (className.includes(key) || key.includes(className)) {
           return { ...val, name: key };
         }
       }
-      return { name: className, rank: '상현 · Unknown', desc: '알 수 없는 상현의 기운이 느껴집니다...' };
+      return { name: className, rank: '상현 · ???', desc: '알 수 없는 상현의 기운이 느껴집니다...' };
     }
 
     // ── TM 모델 ──
     const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/crz4u0-De/';
-    let model = null;
-    let webcam = null;
-    let isRunning = false;
-    let currentTab = 'cam';
-    let uploadedImage = null;
+    let model = null, webcam = null;
+    let isRunning = false, currentTab = 'cam', uploadedImage = null;
 
-    // ── 초기화 ──
     async function loadModel() {
       showLoading(true, '모델 불러오는 중...');
       setStatus('AI 모델을 로드하고 있습니다...');
@@ -756,49 +829,33 @@
       currentTab = tab;
       document.getElementById('tab-cam').classList.toggle('active', tab === 'cam');
       document.getElementById('tab-upload').classList.toggle('active', tab === 'upload');
-
-      const scanFrame = document.getElementById('scan-frame');
-      const uploadArea = document.getElementById('upload-area');
-      scanFrame.style.display = tab === 'cam' ? 'block' : 'none';
-      uploadArea.classList.toggle('active-tab', tab === 'upload');
-
+      document.getElementById('scan-frame').style.display = tab === 'cam' ? 'block' : 'none';
+      document.getElementById('upload-area').classList.toggle('active-tab', tab === 'upload');
       resetAll(false);
     }
 
     // ── 시작 버튼 ──
     async function handleStart() {
       if (!model) return;
-      if (currentTab === 'cam') {
-        await startWebcam();
-      } else {
-        await analyzeUploadedImage();
-      }
+      if (currentTab === 'cam') await startWebcam();
+      else await analyzeUploadedImage();
     }
 
-    // ── 웹캠 시작 ──
+    // ── 웹캠 ──
     async function startWebcam() {
-      if (isRunning) {
-        // 이미 실행 중이면 스냅샷 찍기
-        await snapAndPredict();
-        return;
-      }
+      if (isRunning) { await snapAndPredict(); return; }
       try {
         setStatus('카메라 접근 중...');
-        const flip = true;
-        webcam = new tmImage.Webcam(220, 220, flip);
+        webcam = new tmImage.Webcam(220, 220, true);
         await webcam.setup();
         await webcam.play();
-
-        // 플레이스홀더 제거 후 캔버스 삽입
         const container = document.getElementById('webcam-container');
         document.getElementById('cam-placeholder')?.remove();
         container.appendChild(webcam.canvas);
-
         isRunning = true;
         setScanAnimation(true);
         document.getElementById('start-btn').textContent = '📸 스냅샷 찍기';
-        setStatus('실시간 분석 중... 얼굴을 카메라에 맞춰주세요');
-
+        setStatus('실시간 분석 중... 얼굴을 프레임에 맞춰주세요');
         loop();
       } catch (e) {
         setStatus('❌ 카메라를 사용할 수 없습니다. 이미지 업로드 탭을 이용해주세요.');
@@ -816,10 +873,7 @@
     async function snapAndPredict() {
       setScanAnimation(false);
       isRunning = false;
-      if (webcam) {
-        webcam.stop();
-        webcam = null;
-      }
+      if (webcam) { webcam.stop(); webcam = null; }
       document.getElementById('start-btn').textContent = '⚡ 다시 시작';
       setStatus('분석 완료!');
     }
@@ -842,7 +896,6 @@
       reader.readAsDataURL(file);
     }
 
-    // 드래그 앤 드롭
     const uploadArea = document.getElementById('upload-area');
     uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.style.borderColor = 'var(--gold)'; });
     uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = ''; });
@@ -850,17 +903,11 @@
       e.preventDefault();
       uploadArea.style.borderColor = '';
       const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const fakeEvent = { target: { files: [file] } };
-        onFileSelect(fakeEvent);
-      }
+      if (file && file.type.startsWith('image/')) onFileSelect({ target: { files: [file] } });
     });
 
     async function analyzeUploadedImage() {
-      if (!uploadedImage) {
-        setStatus('⚠️ 먼저 이미지를 선택해주세요');
-        return;
-      }
+      if (!uploadedImage) { setStatus('⚠️ 먼저 이미지를 선택해주세요'); return; }
       setScanAnimation(true);
       await predict(uploadedImage);
       setScanAnimation(false);
@@ -870,24 +917,16 @@
     async function predict(imageEl) {
       if (!model) return;
       const predictions = await model.predict(imageEl);
-
-      // 확률 높은 순 정렬
       predictions.sort((a, b) => b.probability - a.probability);
       const top = predictions[0];
       const charInfo = getCharInfo(top.className);
 
-      // 결과 히어로 업데이트
       document.getElementById('result-name').textContent = charInfo.name;
       document.getElementById('result-rank').textContent = charInfo.rank;
       document.getElementById('result-desc').textContent = charInfo.desc;
-
-      const pct = Math.round(top.probability * 100);
-      animateScore(pct);
-
-      // 전체 결과 바
+      animateScore(Math.round(top.probability * 100));
       renderAllPredictions(predictions);
 
-      // 결과 섹션 표시
       const sec = document.getElementById('result-section');
       sec.style.display = 'block';
       sec.classList.add('show');
@@ -897,10 +936,10 @@
       const el = document.getElementById('result-score');
       let cur = 0;
       const step = target / 40;
-      const timer = setInterval(() => {
+      const t = setInterval(() => {
         cur = Math.min(cur + step, target);
         el.textContent = Math.round(cur) + '%';
-        if (cur >= target) clearInterval(timer);
+        if (cur >= target) clearInterval(t);
       }, 20);
     }
 
@@ -911,16 +950,27 @@
         const pct = (p.probability * 100).toFixed(1);
         const row = document.createElement('div');
         row.className = 'pred-row';
-        row.innerHTML = `
-          <span class="pred-name">${p.className}</span>
-          <div class="pred-bar-wrap">
-            <div class="pred-bar ${i === 0 ? 'top' : 'other'}" data-pct="${p.probability * 100}"></div>
-          </div>
-          <span class="pred-pct ${i === 0 ? 'top' : ''}">${pct}%</span>
-        `;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'pred-name';
+        nameSpan.textContent = p.className;
+
+        const barWrap = document.createElement('div');
+        barWrap.className = 'pred-bar-wrap';
+        const bar = document.createElement('div');
+        bar.className = 'pred-bar ' + (i === 0 ? 'top' : 'other');
+        bar.dataset.pct = p.probability * 100;
+        barWrap.appendChild(bar);
+
+        const pctSpan = document.createElement('span');
+        pctSpan.className = 'pred-pct' + (i === 0 ? ' top' : '');
+        pctSpan.textContent = pct + '%';
+
+        row.appendChild(nameSpan);
+        row.appendChild(barWrap);
+        row.appendChild(pctSpan);
         container.appendChild(row);
       });
-      // 애니메이션 트리거
       requestAnimationFrame(() => {
         document.querySelectorAll('.pred-bar').forEach(bar => {
           bar.style.width = bar.dataset.pct + '%';
@@ -937,27 +987,22 @@
       const container = document.getElementById('webcam-container');
       container.innerHTML = '';
       if (currentTab === 'cam') {
-        container.innerHTML = `
-          <div class="cam-placeholder" id="cam-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-            <span>카메라를 시작하세요</span>
-          </div>`;
+        container.innerHTML = `<div class="cam-placeholder" id="cam-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>카메라를 시작하세요</span>
+        </div>`;
       }
 
-      // 업로드 초기화
       uploadedImage = null;
       const prev = document.getElementById('preview-img');
-      prev.src = '';
-      prev.style.display = 'none';
+      prev.src = ''; prev.style.display = 'none';
       document.getElementById('file-input').value = '';
 
-      // 결과 숨기기
       const sec = document.getElementById('result-section');
-      sec.classList.remove('show');
-      sec.style.display = 'none';
+      sec.classList.remove('show'); sec.style.display = 'none';
       document.getElementById('label-container').innerHTML = '';
 
       document.getElementById('start-btn').textContent = '⚡ 분석 시작';
@@ -965,9 +1010,7 @@
     }
 
     // ── 유틸 ──
-    function setStatus(msg) {
-      document.getElementById('status-msg').textContent = msg;
-    }
+    function setStatus(msg) { document.getElementById('status-msg').textContent = msg; }
     function showLoading(show, msg = '') {
       const el = document.getElementById('loading-overlay');
       el.classList.toggle('show', show);
@@ -977,22 +1020,28 @@
       document.getElementById('scan-frame').classList.toggle('scanning', on);
     }
 
+    // ── Disqus ──
+    var disqus_config = function () {
+      this.page.url = window.location.href;
+      this.page.identifier = '/';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://sanylee.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+
     // ── 배경 파티클 ──
-    (function initParticles() {
+    (function() {
       const canvas = document.getElementById('bg-canvas');
       const ctx = canvas.getContext('2d');
       let W, H, particles = [];
-
-      function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
       class Particle {
         constructor() { this.reset(true); }
-        reset(init = false) {
+        reset(init) {
           this.x = Math.random() * W;
           this.y = init ? Math.random() * H : H + 10;
           this.size = Math.random() * 2 + 0.5;
@@ -1003,32 +1052,15 @@
             ? `rgba(192,57,43,${this.opacity})`
             : `rgba(240,192,64,${this.opacity * 0.6})`;
         }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          if (this.y < -10) this.reset();
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.fill();
-        }
+        update() { this.x += this.speedX; this.y += this.speedY; if (this.y < -10) this.reset(); }
+        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
       }
-
       for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-      (function animate() {
-        ctx.clearRect(0, 0, W, H);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-      })();
+      (function animate() { ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); })();
     })();
 
-    // 기본으로 카메라 탭 레이아웃 설정
+    // 초기 설정
     document.getElementById('scan-frame').style.display = 'block';
-
-    // 모델 로드
     loadModel();
   </script>
 </body>

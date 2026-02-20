@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bs-pb2.web.app/sitemap.xml

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>소개 | 귀멸의 칼날 상현 닮은꼴</title>
+  <meta name="description" content="귀멸의 칼날 상현 닮은꼴 AI 서비스 소개. TensorFlow.js 기반 브라우저 AI로 내 얼굴과 닮은 상현 캐릭터를 분석합니다.">
+  <meta name="google-adsense-account" content="ca-pub-9688338422874533">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9688338422874533" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- 네비게이션 -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">鬼滅 上弦</a>
+      <div class="nav-links">
+        <a href="/">홈</a>
+        <a href="/about.html" class="active">소개</a>
+        <a href="/contact.html">문의</a>
+        <a href="/privacy.html">개인정보</a>
+      </div>
+      <button class="nav-hamburger" aria-label="메뉴 열기" onclick="toggleNav()">☰</button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/">홈</a>
+      <a href="/about.html" class="active">소개</a>
+      <a href="/contact.html">문의</a>
+      <a href="/privacy.html">개인정보</a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero anim-in">
+      <p class="page-eyebrow">About This Service</p>
+      <h1 class="page-title">서비스 소개</h1>
+      <p class="page-sub">귀멸의 칼날 상현 닮은꼴 AI 분석기에 대해 알아보세요</p>
+    </div>
+
+    <div class="content-section anim-in" style="animation-delay:0.1s">
+      <h2>🗡️ 이 서비스는 무엇인가요?</h2>
+      <p>
+        <strong>귀멸의 칼날 상현 닮은꼴 분석기</strong>는 인기 애니메이션 <em>귀멸의 칼날(鬼滅の刃)</em>에 등장하는
+        최강의 귀신 집단 '상현(上弦)' 캐릭터 중 당신과 가장 닮은 캐릭터를 AI로 분석해주는 엔터테인먼트 서비스입니다.
+      </p>
+      <p>
+        웹캠으로 실시간 촬영하거나 사진을 업로드하면, 브라우저 내에서 직접 AI 추론이 이루어져
+        코쿠시보·도우마·아카자·한텐구·교코·규타로/다키 중 어떤 캐릭터와 가장 유사한 특징을 가지는지
+        퍼센트로 보여줍니다. 결과는 재미로 즐기는 엔터테인먼트 콘텐츠이며, 진지한 분석 도구가 아닙니다.
+      </p>
+      <p>
+        이 서비스는 귀멸의 칼날 팬이라면 누구나 즐길 수 있도록 제작되었습니다. 친구와 함께 촬영해보고
+        결과를 공유하거나, SNS에 올려 누가 어떤 상현과 닮았는지 비교해보세요!
+      </p>
+    </div>
+
+    <div class="content-section anim-in" style="animation-delay:0.15s">
+      <h2>🤖 사용된 기술</h2>
+      <h3>Google Teachable Machine</h3>
+      <p>
+        본 서비스의 AI 모델은 Google이 제공하는 <strong>Teachable Machine</strong> 플랫폼으로 학습되었습니다.
+        Teachable Machine은 누구나 쉽게 이미지·오디오·포즈 인식 모델을 학습할 수 있는 도구로,
+        복잡한 코딩 없이 머신러닝 모델을 제작·배포할 수 있습니다.
+      </p>
+      <h3>TensorFlow.js</h3>
+      <p>
+        학습된 모델은 <strong>TensorFlow.js</strong>를 통해 브라우저 내에서 직접 실행됩니다.
+        TensorFlow.js는 Google이 개발한 오픈소스 머신러닝 라이브러리로, JavaScript 환경에서
+        딥러닝 모델의 학습과 추론을 가능하게 합니다. 서버 전송 없이 사용자의 기기에서 모든 처리가
+        완료되므로 빠르고 안전합니다.
+      </p>
+      <h3>WebRTC 웹캠 API</h3>
+      <p>
+        실시간 카메라 기능은 브라우저 표준 기술인 <strong>WebRTC</strong>의 MediaDevices API를 사용합니다.
+        카메라 영상은 서버로 전송되지 않고 오직 브라우저 내에서만 처리됩니다.
+      </p>
+    </div>
+
+    <div class="content-section anim-in" style="animation-delay:0.2s">
+      <h2>🔒 개인정보 보호</h2>
+      <p>
+        이 서비스에서 웹캠으로 촬영하거나 업로드한 이미지는 <strong>서버로 전송되지 않습니다</strong>.
+        모든 AI 분석은 사용자의 브라우저(기기) 내에서만 처리되며, 이미지 데이터는 분석 즉시 폐기됩니다.
+        당사는 사용자의 얼굴 이미지를 수집·저장·학습에 사용하지 않습니다.
+      </p>
+      <p>
+        자세한 개인정보 처리 방침은 <a href="/privacy.html">개인정보처리방침 페이지</a>를 확인해주세요.
+      </p>
+    </div>
+
+    <div class="content-section anim-in" style="animation-delay:0.25s">
+      <h2>⚠️ 저작권 안내</h2>
+      <p>
+        귀멸의 칼날(鬼滅の刃)의 모든 저작권은 원작자 <strong>吾峠呼世晴</strong> 및
+        <strong>集英社(슈에이샤)</strong>에 귀속됩니다. 본 서비스는 팬이 만든 비상업적 엔터테인먼트 서비스로,
+        공식 귀멸의 칼날 제작사·배급사와 어떠한 공식적인 관계도 없습니다.
+      </p>
+      <p>
+        캐릭터 이름 및 설정에 관한 모든 권리는 해당 저작권자에게 있습니다.
+        만약 저작권 관련 문의 사항이 있으시면 <a href="/contact.html">문의 페이지</a>를 통해 연락해주세요.
+      </p>
+    </div>
+
+    <div class="content-section anim-in" style="animation-delay:0.3s">
+      <h2>📬 문의하기</h2>
+      <p>
+        서비스 이용 중 불편하신 점, 버그 신고, 개선 제안 등이 있으시면 언제든지 문의해주세요.
+        귀멸의 칼날 팬 여러분의 소중한 피드백으로 더 좋은 서비스를 만들어 나가겠습니다.
+      </p>
+      <p>
+        → <a href="/contact.html">문의 페이지로 이동하기</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="/">홈</a>
+      <a href="/about.html">소개</a>
+      <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/contact.html">문의하기</a>
+    </div>
+    <div class="footer-copy">
+      DEMON SLAYER · UPPER MOON ANALYZER<br>
+      귀멸의 칼날 © 吾峠呼世晴 / 集英社
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('nav-mobile').classList.toggle('open');
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.site-nav')) {
+        document.getElementById('nav-mobile').classList.remove('open');
+      }
+    });
+
+    // 배경 파티클
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      class Particle {
+        constructor() { this.reset(true); }
+        reset(init) {
+          this.x = Math.random() * W;
+          this.y = init ? Math.random() * H : H + 10;
+          this.size = Math.random() * 2 + 0.5;
+          this.speedY = -(Math.random() * 0.5 + 0.15);
+          this.speedX = (Math.random() - 0.5) * 0.25;
+          this.opacity = Math.random() * 0.4 + 0.08;
+          this.color = Math.random() > 0.5
+            ? `rgba(192,57,43,${this.opacity})`
+            : `rgba(240,192,64,${this.opacity * 0.6})`;
+        }
+        update() { this.x += this.speedX; this.y += this.speedY; if (this.y < -10) this.reset(); }
+        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
+      }
+      for (let i = 0; i < 60; i++) particles.push(new Particle());
+      (function animate() { ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); })();
+    })();
+  </script>
+</body>
+</html>
