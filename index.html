@@ -380,6 +380,33 @@
       gap: 14px;
       margin-bottom: 16px;
     }
+    /* 캐릭터 카드 이미지 레이아웃 */
+    .char-card-inner {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .char-img-wrap {
+      flex-shrink: 0;
+      width: 100px;
+      height: 120px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(192,57,43,0.3);
+      background: rgba(0,0,0,0.3);
+    }
+    .char-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .char-card-text { flex: 1; min-width: 0; }
+    @media (max-width: 420px) {
+      .char-card-inner { flex-direction: column; }
+      .char-img-wrap { width: 100%; height: 180px; }
+    }
 
     /* How-to 섹션 */
     .how-to { display: flex; flex-direction: column; gap: 12px; }
@@ -643,65 +670,107 @@
 
         <div class="guide-card">
           <h2>코쿠시보 <span class="rank-badge">상현 壱</span></h2>
-          <p>
-            무잔을 제외한 <strong>귀신 중 최강</strong>의 존재. 본명은 미치카츠 츠기쿠니로,
-            귀살대 역사상 가장 위대한 검사 요리이치 츠기쿠니의 쌍둥이 형이다.
-            뛰어난 형에 대한 열등감으로 스스로 귀신이 되기를 선택한 비극적 인물.
-            스스로 창시한 <strong>달의 호흡(月の呼吸)</strong>과 여섯 개의 눈,
-            온몸에 돋아난 칼날이 특징으로, 세 명의 기둥이 합력해도 쉽게 쓰러뜨리기 어렵다.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/kokushibo.png" alt="코쿠시보 상현 壱" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                무잔을 제외한 <strong>귀신 중 최강</strong>의 존재. 본명은 미치카츠 츠기쿠니로,
+                귀살대 역사상 가장 위대한 검사 요리이치 츠기쿠니의 쌍둥이 형이다.
+                뛰어난 형에 대한 열등감으로 스스로 귀신이 되기를 선택한 비극적 인물.
+                스스로 창시한 <strong>달의 호흡(月の呼吸)</strong>과 여섯 개의 눈,
+                온몸에 돋아난 칼날이 특징으로, 세 명의 기둥이 합력해도 쉽게 쓰러뜨리기 어렵다.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="guide-card">
           <h2>도우마 <span class="rank-badge">상현 弐</span></h2>
-          <p>
-            무지개색 눈을 가진 미형의 귀신. 인간 시절부터 <strong>어떤 감정도 느끼지 못하는</strong>
-            공허한 영혼의 소유자로, 허무주의적 세계관을 가진다.
-            화려한 부채로 얼음과 냉기를 자유자재로 다루는 혈귀술을 구사한다.
-            겉으로는 온화하고 매력적이지만 인간을 단순한 식사로 여기는 잔혹한 본성을 지닌다.
-            카나오·이노스케가 합력하고 시노부의 희생으로 겨우 격파하는 역대급 강적.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/douma.png" alt="도우마 상현 弐" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                무지개색 눈을 가진 미형의 귀신. 인간 시절부터 <strong>어떤 감정도 느끼지 못하는</strong>
+                공허한 영혼의 소유자로, 허무주의적 세계관을 가진다.
+                화려한 부채로 얼음과 냉기를 자유자재로 다루는 혈귀술을 구사한다.
+                겉으로는 온화하고 매력적이지만 인간을 단순한 식사로 여기는 잔혹한 본성을 지닌다.
+                카나오·이노스케가 합력하고 시노부의 희생으로 겨우 격파하는 역대급 강적.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="guide-card">
           <h2>아카자 <span class="rank-badge">상현 参</span></h2>
-          <p>
-            <strong>오로지 강자와의 싸움만을 추구</strong>하는 전투 귀신. 인간 시절 이름은 핫케이쥬로로,
-            아버지를 위해 도둑질을 하다 검사 도장에 입문한 불우한 과거를 가진다.
-            수련으로 쌓은 무술이 귀신의 힘과 결합한 파괴적 전투력의 소유자.
-            온몸에 새겨진 붉은 문신과 격렬한 전투 스타일로 팬들에게 강렬한 인상을 남겼다.
-            탄지로와의 격전에서 인간 시절 기억과 마주하며 스스로 붕괴한다.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/akaza.png" alt="아카자 상현 参" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                <strong>오로지 강자와의 싸움만을 추구</strong>하는 전투 귀신. 인간 시절 이름은 핫케이쥬로로,
+                아버지를 위해 도둑질을 하다 검사 도장에 입문한 불우한 과거를 가진다.
+                수련으로 쌓은 무술이 귀신의 힘과 결합한 파괴적 전투력의 소유자.
+                온몸에 새겨진 붉은 문신과 격렬한 전투 스타일로 팬들에게 강렬한 인상을 남겼다.
+                탄지로와의 격전에서 인간 시절 기억과 마주하며 스스로 붕괴한다.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="guide-card">
           <h2>한텐구 <span class="rank-badge">상현 肆</span></h2>
-          <p>
-            극도의 겁쟁이 귀신이지만, <strong>두려움이라는 감정 자체가 강력한 분신을 탄생</strong>시킨다.
-            공포·기쁨·분노·슬픔 등 각각의 감정이 독립적인 귀신으로 분열되어 싸운다.
-            본체는 오히려 가장 약하지만 몸을 숨기며 분신들로 싸우는 전략을 구사한다.
-            극도의 겁쟁이라는 설정이 역설적으로 공략하기 가장 까다로운 상현 중 하나로 만들었다.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/hantengu.png" alt="한텐구 상현 肆" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                극도의 겁쟁이 귀신이지만, <strong>두려움이라는 감정 자체가 강력한 분신을 탄생</strong>시킨다.
+                공포·기쁨·분노·슬픔 등 각각의 감정이 독립적인 귀신으로 분열되어 싸운다.
+                본체는 오히려 가장 약하지만 몸을 숨기며 분신들로 싸우는 전략을 구사한다.
+                극도의 겁쟁이라는 설정이 역설적으로 공략하기 가장 까다로운 상현 중 하나로 만들었다.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="guide-card">
           <h2>교코 <span class="rank-badge">상현 伍</span></h2>
-          <p>
-            물고기 인간처럼 기이한 외모를 지닌 귀신으로, <strong>극도로 일그러진 미적 감각</strong>을 자랑한다.
-            거대한 항아리들을 근거지로 삼아 이동하며, 물고기 형태의 혈귀술 조각들로 공격한다.
-            자신의 작품에 극도로 집착하며 자기 도취적인 성격을 가진다.
-            무이치로 토키토와의 격전에서 쓰러지지만, 독특한 비주얼로 팬들에게 오래 기억되는 캐릭터다.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/gyokko.png" alt="교코 상현 伍" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                물고기 인간처럼 기이한 외모를 지닌 귀신으로, <strong>극도로 일그러진 미적 감각</strong>을 자랑한다.
+                거대한 항아리들을 근거지로 삼아 이동하며, 물고기 형태의 혈귀술 조각들로 공격한다.
+                자신의 작품에 극도로 집착하며 자기 도취적인 성격을 가진다.
+                무이치로 토키토와의 격전에서 쓰러지지만, 독특한 비주얼로 팬들에게 오래 기억되는 캐릭터다.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="guide-card">
           <h2>규타로 &amp; 다키 <span class="rank-badge">상현 陸</span></h2>
-          <p>
-            <strong>오빠 규타로와 여동생 다키</strong>, 두 귀신이 하나의 육체를 공유하는 독특한 구조.
-            규타로는 독이 담긴 낫으로 잔혹하게 싸우며, 다키는 오비(帯)라 불리는 대형 띠를 이용한 현란한 공격을 펼친다.
-            남매는 인간 시절 유흥가에서 극도로 비참한 삶을 살았으며, 그 고통이 귀신이 된 후에도
-            강력한 유대감으로 이어진다. 탄지로·젠이츠·이노스케 셋이 힘을 합쳐 겨우 쓰러뜨리는 강적.
-          </p>
+          <div class="char-card-inner">
+            <div class="char-img-wrap">
+              <img src="/images/daki-gyutaro.png" alt="규타로와 다키 상현 陸" loading="lazy">
+            </div>
+            <div class="char-card-text">
+              <p>
+                <strong>오빠 규타로와 여동생 다키</strong>, 두 귀신이 하나의 육체를 공유하는 독특한 구조.
+                규타로는 독이 담긴 낫으로 잔혹하게 싸우며, 다키는 오비(帯)라 불리는 대형 띠를 이용한 현란한 공격을 펼친다.
+                남매는 인간 시절 유흥가에서 극도로 비참한 삶을 살았으며, 그 고통이 귀신이 된 후에도
+                강력한 유대감으로 이어진다. 탄지로·젠이츠·이노스케 셋이 힘을 합쳐 겨우 쓰러뜨리는 강적.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -805,7 +874,7 @@
     }
 
     // ── TM 모델 ──
-    const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/crz4u0-De/';
+    const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/vlj9htQzg/';
     let model = null, webcam = null;
     let isRunning = false, currentTab = 'cam', uploadedImage = null;
 
