@@ -399,3 +399,51 @@ body::before {
 }
 
 .anim-in { animation: fadeSlideUp 0.7s ease both; }
+
+/* ── 언어 토글 버튼 ── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.lang-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 5px;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  min-height: 28px;
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1;
+}
+.lang-btn:hover {
+  color: rgba(255,255,255,0.8);
+  border-color: rgba(255,255,255,0.35);
+}
+.lang-btn.active {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(240,192,64,0.08);
+}
+.lang-sep {
+  color: rgba(255,255,255,0.2);
+  font-size: 11px;
+  user-select: none;
+  line-height: 1;
+}
+/* 모바일 nav 드롭다운 내 언어 버튼 */
+.lang-toggle-mobile {
+  padding: 8px 16px 4px;
+  justify-content: flex-start;
+}
+@media (max-width: 640px) {
+  /* 데스크톱 전용 lang-toggle 숨김 (nav-inner 내부 것만) */
+  .nav-inner .lang-toggle { display: flex; }
+}
