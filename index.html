@@ -1196,10 +1196,21 @@
 
   <!-- ═══════════ JavaScript ═══════════ -->
   <!-- TF.js / TeachableMachine: body 하단 배치로 렌더 블로킹 제거 (LCP 최적화) -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js" crossorigin="anonymous"></script>
   <script src="/i18n.js"></script>
   <script>
+    // ── 전역 에러 핸들러 (crossorigin 스크립트 에러 상세 포착) ──
+    window.addEventListener('error', function(e) {
+      // "Script error." = crossorigin 속성 없는 외부 스크립트 에러 (보안 마스킹)
+      // crossorigin="anonymous" 추가 후에는 실제 메시지가 여기에 찍힘
+      if (e.message === 'Script error.' || e.filename === '') return; // 서드파티 노이즈 무시
+      console.warn('[상현닮은꼴] 에러 감지:', e.message, '|', e.filename, ':', e.lineno);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      console.warn('[상현닮은꼴] 미처리 Promise 거부:', e.reason);
+    });
+
     // ── 네비게이션 ──
     function toggleNav() {
       document.getElementById('nav-mobile').classList.toggle('open');
@@ -1240,14 +1251,15 @@
       showLoading(true, t('index.loading'));
       setStatus(t('index.status.loading'));
       try {
+        if (typeof tmImage === 'undefined') throw new Error('TeachableMachine 라이브러리 로드 실패. 네트워크를 확인해주세요.');
         model = await tmImage.load(MODEL_URL + 'model.json', MODEL_URL + 'metadata.json');
         setStatus(t('index.status.ready'));
         document.getElementById('start-btn').disabled = false;
         showLoading(false);
       } catch (e) {
-        setStatus(t('index.status.fail'));
+        setStatus('⚠️ 모델 로드 실패: ' + (e.message || '네트워크 오류'));
         showLoading(false);
-        console.error(e);
+        console.error('[상현닮은꼴] loadModel 오류:', e);
       }
     }
 
