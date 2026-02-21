@@ -8,6 +8,23 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-YHJ00H7NBL');
+    // ── GEO: AI 서비스 유입 추적 ──
+    (function(){
+      var ref = document.referrer || '';
+      var aiMap = {
+        'chat.openai.com':'ChatGPT','perplexity.ai':'Perplexity',
+        'gemini.google.com':'Gemini','bard.google.com':'Bard',
+        'claude.ai':'Claude','copilot.microsoft.com':'Copilot',
+        'you.com':'You.com','phind.com':'Phind','kagi.com':'Kagi'
+      };
+      for (var d in aiMap) {
+        if (ref.indexOf(d) !== -1) {
+          gtag('event','ai_referral',{event_category:'GEO',event_label:aiMap[d],ai_source:aiMap[d],landing_page:location.pathname});
+          sessionStorage.setItem('geo_ai_source', aiMap[d]);
+          break;
+        }
+      }
+    })();
   </script>
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -53,8 +70,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
   <style>
     /* ── index 전용 스타일 ── */
     .wrapper {
@@ -580,44 +595,63 @@
           {
             "@type": "Question",
             "name": "촬영된 이미지가 저장되나요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "아닙니다. 모든 이미지 분석은 브라우저 내에서 실시간으로 처리되며, 서버나 외부에 저장되지 않습니다. 분석이 끝나는 즉시 데이터는 삭제됩니다."
-            }
+            "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. 모든 이미지 분석은 브라우저 내에서 실시간으로 처리되며, 서버나 외부에 저장되지 않습니다. 분석이 끝나는 즉시 데이터는 삭제됩니다."}
           },
           {
             "@type": "Question",
             "name": "분석 결과가 항상 정확한가요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "본 서비스는 AI 딥러닝 모델을 기반으로 하지만, 순수한 엔터테인먼트 목적의 콘텐츠입니다. 결과는 참고용으로만 활용해주세요. 여러 번 시도하거나 다양한 사진으로 해보면 더 재미있게 즐길 수 있습니다."
-            }
+            "acceptedAnswer": {"@type": "Answer", "text": "본 서비스는 AI 딥러닝 모델 기반의 순수 엔터테인먼트 콘텐츠입니다. 결과는 참고용으로만 활용해주세요. 여러 번 시도하거나 다양한 사진으로 해보면 더 재미있게 즐길 수 있습니다."}
           },
           {
             "@type": "Question",
             "name": "모바일에서도 사용 가능한가요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "네, iOS Safari와 Android Chrome에서 이용 가능합니다. '이미지 업로드' 탭을 이용하면 갤러리 사진을 업로드하거나 카메라로 바로 촬영할 수 있습니다."
-            }
+            "acceptedAnswer": {"@type": "Answer", "text": "네, iOS Safari와 Android Chrome 모두에서 이용 가능합니다. '이미지 업로드' 탭을 선택하면 갤러리 사진을 업로드하거나 카메라로 바로 촬영해 분석할 수 있습니다."}
           },
           {
             "@type": "Question",
             "name": "어떤 캐릭터가 분석 대상인가요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "코쿠시보(상현 壱), 도우마(상현 弐), 아카자(상현 参), 한텐구(상현 肆), 교코(상현 伍), 규타로/다키(상현 陸) 총 상현 6등급의 캐릭터가 포함되어 있습니다."
-            }
+            "acceptedAnswer": {"@type": "Answer", "text": "귀멸의 칼날 상현 6등급 캐릭터가 분석 대상입니다. 코쿠시보(상현 壱), 도우마(상현 弐), 아카자(상현 参), 한텐구(상현 肆), 교코(상현 伍), 규타로·다키(상현 陸)가 포함됩니다."}
           },
           {
             "@type": "Question",
             "name": "카메라 권한을 거부했어요. 어떻게 하나요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "카메라 탭 대신 '이미지 업로드' 탭을 이용해주세요. 사진 파일을 직접 선택하거나 드래그&드롭하여 분석할 수 있습니다. 카메라 권한은 브라우저 설정에서 언제든지 변경 가능합니다."
-            }
+            "acceptedAnswer": {"@type": "Answer", "text": "카메라 탭 대신 '이미지 업로드' 탭을 이용해주세요. 사진 파일을 드래그&드롭하거나 클릭해 선택할 수 있습니다. 카메라 권한은 브라우저 주소창 자물쇠 아이콘에서 언제든 변경 가능합니다."}
+          },
+          {
+            "@type": "Question",
+            "name": "분석에 얼마나 걸리나요?",
+            "acceptedAnswer": {"@type": "Answer", "text": "이미지 분석 자체는 1~3초 내에 완료됩니다. 단, 첫 접속 시 AI 모델 파일(약 5~15MB)을 브라우저에 로드하는 데 5~15초가 소요될 수 있습니다. 로드 후에는 즉각 분석이 이루어집니다."}
+          },
+          {
+            "@type": "Question",
+            "name": "이 서비스는 무료인가요?",
+            "acceptedAnswer": {"@type": "Answer", "text": "네, 완전 무료 서비스입니다. 회원 가입, 로그인, 결제가 일절 필요 없습니다. Google AdSense 광고로 운영되며, 모든 분석 기능은 무료로 제공됩니다."}
+          },
+          {
+            "@type": "Question",
+            "name": "귀멸의 칼날 상현 중 가장 강한 캐릭터는 누구인가요?",
+            "acceptedAnswer": {"@type": "Answer", "text": "상현 중 가장 강한 캐릭터는 코쿠시보(상현 壱)입니다. 귀신들의 왕 무잔을 제외한 귀신 중 최강으로, 달의 호흡을 구사하며 여섯 개의 눈과 온몸의 칼날이 특징입니다. 귀살대 기둥 3명이 합력해도 쉽게 제압하기 어렵습니다."}
+          },
+          {
+            "@type": "Question",
+            "name": "어떤 사진이 더 정확한 결과를 주나요?",
+            "acceptedAnswer": {"@type": "Answer", "text": "정면을 바라본 얼굴 사진이 가장 정확합니다. 밝은 조명, 얼굴이 화면의 60~70%를 차지하는 구도를 권장합니다. 선글라스·마스크 착용이나 어두운 환경에서는 정확도가 낮아질 수 있습니다."}
+          },
+          {
+            "@type": "Question",
+            "name": "개인 얼굴 데이터가 외부로 유출될 위험이 있나요?",
+            "acceptedAnswer": {"@type": "Answer", "text": "유출 위험이 없습니다. 모든 AI 추론이 TensorFlow.js를 통해 사용자 브라우저 내에서만 처리되므로 이미지 데이터가 어떤 서버에도 전송되지 않습니다. 분석 완료 즉시 데이터는 자동 삭제됩니다."}
           }
         ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://bs-pb2.pages.dev/#webpage",
+        "url": "https://bs-pb2.pages.dev/",
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [".guide-card p", ".faq-q", ".faq-a", ".guide-title", ".result-desc"]
+        }
       }
     ]
   }
@@ -952,8 +986,42 @@
         </div>
         <div class="faq-item">
           <p class="faq-q" data-i18n="guide.faq.q5">Q. 카메라 권한을 거부했어요.</p>
-          <p class="faq-a"><span data-i18n-html="guide.faq.a5-html">카메라 탭 대신 '이미지 업로드' 탭을 이용해주세요. 사진 파일을 직접 선택하거나 드래그&amp;드롭하여 분석할 수 있습니다. 카메라 권한은 브라우저 설정에서 언제든지 변경 가능합니다.</span></p>
+          <p class="faq-a"><span data-i18n-html="guide.faq.a5-html">카메라 탭 대신 '이미지 업로드' 탭을 이용해주세요. 사진 파일을 직접 선택하거나 드래그&amp;드롭하여 분석할 수 있습니다. 카메라 권한은 브라우저 주소창 자물쇠 아이콘에서 언제든 변경 가능합니다.</span></p>
         </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 분석에 얼마나 걸리나요?</p>
+          <p class="faq-a">이미지 분석 자체는 <strong>1~3초</strong> 내에 완료됩니다. 첫 접속 시 AI 모델 파일(약 5~15MB)을 브라우저에 로드하는 데 5~15초가 소요될 수 있습니다. 모델 로드 후에는 즉각 분석이 이루어집니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 이 서비스는 무료인가요?</p>
+          <p class="faq-a">네, <strong>완전 무료 서비스</strong>입니다. 회원 가입·로그인·결제가 일절 필요 없습니다. Google AdSense 광고 수익으로 운영되며, 모든 AI 분석 기능은 제한 없이 무료로 제공됩니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 귀멸의 칼날 상현 중 가장 강한 캐릭터는 누구인가요?</p>
+          <p class="faq-a">상현 중 가장 강한 캐릭터는 <strong>코쿠시보(상현 壱)</strong>입니다. 귀신들의 왕 무잔을 제외한 귀신 중 최강으로, 달의 호흡과 여섯 개의 눈, 온몸의 칼날이 특징입니다. 귀살대 기둥 3명이 합력해도 쉽게 제압하기 어렵습니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 어떤 사진이 더 정확한 결과를 주나요?</p>
+          <p class="faq-a"><strong>정면을 바라본 얼굴 사진</strong>이 가장 정확합니다. 밝은 조명에서 촬영하고 얼굴이 화면의 60~70%를 차지하는 구도를 권장합니다. 선글라스·마스크 착용 사진은 정확도가 낮아질 수 있습니다.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Q. 개인 얼굴 데이터가 외부로 유출될 위험이 있나요?</p>
+          <p class="faq-a">유출 위험이 <strong>전혀 없습니다</strong>. TensorFlow.js를 통해 모든 AI 추론이 사용자의 브라우저 내에서만 처리되므로 이미지 데이터가 어떤 서버에도 전송되지 않습니다. 분석 완료 즉시 데이터가 자동으로 삭제됩니다.</p>
+        </div>
+      </div>
+
+      <!-- 별점 평가 섹션 -->
+      <div class="guide-card" id="rating-card" style="text-align:center;">
+        <h2>⭐ 서비스를 평가해주세요</h2>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:18px;">귀멸의 칼날 상현 닮은꼴 AI 분석기, 어떠셨나요?</p>
+        <div id="star-row" style="font-size:40px;letter-spacing:6px;cursor:pointer;line-height:1;margin-bottom:12px;">
+          <span class="star-el" data-v="1" style="color:rgba(255,255,255,0.2);transition:color .2s;">★</span>
+          <span class="star-el" data-v="2" style="color:rgba(255,255,255,0.2);transition:color .2s;">★</span>
+          <span class="star-el" data-v="3" style="color:rgba(255,255,255,0.2);transition:color .2s;">★</span>
+          <span class="star-el" data-v="4" style="color:rgba(255,255,255,0.2);transition:color .2s;">★</span>
+          <span class="star-el" data-v="5" style="color:rgba(255,255,255,0.2);transition:color .2s;">★</span>
+        </div>
+        <p id="star-msg" style="font-size:13px;color:rgba(255,255,255,0.4);min-height:20px;"></p>
       </div>
 
     </section>
@@ -983,6 +1051,9 @@
   </div><!-- /.wrapper -->
 
   <!-- ═══════════ JavaScript ═══════════ -->
+  <!-- TF.js / TeachableMachine: body 하단 배치로 렌더 블로킹 제거 (LCP 최적화) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
   <script src="/i18n.js"></script>
   <script>
     // ── 네비게이션 ──
@@ -1274,6 +1345,26 @@
     // 초기 설정
     document.getElementById('scan-frame').style.display = 'block';
     loadModel();
+
+    // ── 별점 평가 ──
+    (function(){
+      var stars = document.querySelectorAll('.star-el');
+      var msg = document.getElementById('star-msg');
+      var labels = ['','별로에요','아쉬워요','괜찮아요','좋아요!','최고예요! 🔥'];
+      var saved = localStorage.getItem('geo_rating');
+      function paint(n){ stars.forEach(function(s){ s.style.color = parseInt(s.dataset.v) <= n ? '#f0c040' : 'rgba(255,255,255,0.2)'; }); }
+      if (saved) { paint(+saved); msg.textContent = '평가해주셔서 감사합니다! (' + saved + '/5)'; }
+      stars.forEach(function(s){
+        s.addEventListener('mouseenter', function(){ paint(+this.dataset.v); msg.textContent = labels[+this.dataset.v]; });
+        s.addEventListener('mouseleave', function(){ var sv=localStorage.getItem('geo_rating'); paint(sv?+sv:0); msg.textContent = sv?('평가해주셔서 감사합니다! ('+sv+'/5)'):''; });
+        s.addEventListener('click', function(){
+          var v = +this.dataset.v;
+          localStorage.setItem('geo_rating', v);
+          paint(v); msg.textContent = '평가해주셔서 감사합니다! (' + v + '/5) 🙏';
+          gtag('event','service_rating',{event_category:'GEO',event_label:'star_'+v,value:v});
+        });
+      });
+    })();
   </script>
 </body>
 </html>
