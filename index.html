@@ -525,6 +525,90 @@
       50%      { box-shadow: 0 0 60px rgba(240,192,64,0.18), 0 0 100px rgba(192,57,43,0.12); }
     }
 
+    /* ── SNS 공유 ── */
+    .share-result-card {
+      margin-top: 14px;
+      background: var(--card-bg);
+      border: 1px solid rgba(240,192,64,0.2);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(16px);
+      animation: fadeSlideUp 0.5s ease both;
+    }
+    .share-result-label {
+      font-size: 11px; letter-spacing: 4px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .share-btns {
+      display: flex; gap: 8px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .share-btn {
+      padding: 10px 16px; border: none;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.22s; letter-spacing: 0.5px;
+      min-height: 42px; display: flex; align-items: center; gap: 6px;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .share-btn:hover { transform: translateY(-2px); filter: brightness(1.18); }
+    .share-btn:active { transform: scale(0.95); }
+    .s-save { background: linear-gradient(135deg,#c0392b,#8b0000); color:#fff; }
+    .s-native { background: linear-gradient(135deg,#5c0a8a,#8b0080); color:#fff; }
+    .s-twitter { background:#000; color:#fff; }
+    .s-facebook { background:#1877f2; color:#fff; }
+    .s-threads { background:#101010; color:#fff; border:1px solid rgba(255,255,255,0.15); }
+    .s-copy { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.75); border:1px solid rgba(255,255,255,0.15); }
+    .share-hashtags {
+      margin-top: 12px; font-size: 11px;
+      color: rgba(240,192,64,0.5); letter-spacing: 1px;
+    }
+    /* 플로팅 공유 */
+    .share-float {
+      position: fixed; right: 16px; bottom: 80px;
+      z-index: 200; display: none;
+      flex-direction: column; align-items: center; gap: 8px;
+    }
+    .sf-items {
+      display: flex; flex-direction: column; gap: 8px;
+      opacity: 0; transform: translateY(10px) scale(0.9);
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+    }
+    .sf-items.open { opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
+    .sf-main {
+      width:50px; height:50px; border-radius:50%;
+      background: linear-gradient(135deg,#c0392b,#8b0000);
+      border:none; color:#fff; font-size:22px; cursor:pointer;
+      box-shadow:0 4px 20px rgba(192,57,43,0.55);
+      transition:all 0.3s; display:flex; align-items:center; justify-content:center;
+    }
+    .sf-main:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(192,57,43,0.75); }
+    .sf-btn {
+      width:40px; height:40px; border-radius:50%; border:none;
+      font-size:15px; cursor:pointer; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.2s; box-shadow:0 2px 12px rgba(0,0,0,0.35);
+    }
+    .sf-btn:hover { transform:scale(1.12); }
+    .sf-twitter { background:#000; color:#fff; }
+    .sf-facebook { background:#1877f2; color:#fff; }
+    .sf-threads { background:#101010; color:#fff; border:1px solid rgba(255,255,255,0.2); }
+    .sf-copy { background:rgba(20,10,35,0.95); color:rgba(255,255,255,0.8); border:1px solid rgba(255,255,255,0.2); }
+    .sf-label {
+      font-size:9px; color:rgba(255,255,255,0.5);
+      letter-spacing:0.5px; text-align:center; margin-top:2px;
+    }
+    /* 복사 토스트 */
+    #copy-toast {
+      position:fixed; bottom:140px; left:50%; transform:translateX(-50%);
+      background:rgba(192,57,43,0.95); color:#fff;
+      padding:10px 22px; border-radius:20px; font-size:13px;
+      z-index:300; letter-spacing:1px; opacity:0; pointer-events:none;
+      box-shadow:0 4px 20px rgba(192,57,43,0.4);
+      transition:opacity 0.3s; white-space:nowrap;
+    }
     /* ── 모바일 최적화 ── */
     @media (max-width: 480px) {
       .wrapper { padding-top: calc(var(--nav-h) + 16px); padding-left: 12px; padding-right: 12px; }
@@ -783,7 +867,22 @@
         <h3 data-i18n="index.result.all">전체 분석 결과</h3>
         <div id="label-container"></div>
       </div>
+
+      <!-- SNS 공유 카드 -->
+      <div class="share-result-card">
+        <p class="share-result-label">🔥 결과 공유하기</p>
+        <div class="share-btns">
+          <button class="share-btn s-save" onclick="downloadResultCard()" title="결과 이미지 저장">💾 이미지 저장</button>
+          <button class="share-btn s-native" id="share-native-btn" onclick="shareSNS('native')" title="모바일 공유">📱 공유하기</button>
+          <button class="share-btn s-twitter" onclick="shareSNS('twitter')" title="Twitter/X로 공유">𝕏 트위터</button>
+          <button class="share-btn s-facebook" onclick="shareSNS('facebook')" title="Facebook으로 공유">Facebook</button>
+          <button class="share-btn s-threads" onclick="shareSNS('threads')" title="Threads로 공유">⊕ Threads</button>
+          <button class="share-btn s-copy" id="share-copy-btn" onclick="shareSNS('copy')">🔗 링크 복사</button>
+        </div>
+        <p class="share-hashtags">#귀멸의칼날 #상현닮은꼴 #귀멸AI #DemonSlayer</p>
+      </div>
     </div>
+    <div id="copy-toast">✅ 클립보드에 복사됐어요!</div>
 
     <!-- ═══════════════════════════════════════════
          콘텐츠 가이드 섹션 (800단어 이상)
@@ -1049,6 +1148,29 @@
     </footer>
 
   </div><!-- /.wrapper -->
+
+  <!-- 플로팅 SNS 공유 -->
+  <div class="share-float" id="share-float">
+    <div class="sf-items" id="sf-items">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <button class="sf-btn sf-twitter" onclick="shareSNS('twitter')" title="Twitter/X">𝕏</button>
+        <span class="sf-label">트위터</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <button class="sf-btn sf-facebook" onclick="shareSNS('facebook')" title="Facebook">f</button>
+        <span class="sf-label">Facebook</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <button class="sf-btn sf-threads" onclick="shareSNS('threads')" title="Threads">⊕</button>
+        <span class="sf-label">Threads</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <button class="sf-btn sf-copy" onclick="shareSNS('copy')" title="링크 복사">🔗</button>
+        <span class="sf-label">복사</span>
+      </div>
+    </div>
+    <button class="sf-main" id="sf-main-btn" onclick="toggleShareFloat()" title="공유하기" aria-label="공유">↗</button>
+  </div>
 
   <!-- ═══════════ JavaScript ═══════════ -->
   <!-- TF.js / TeachableMachine: body 하단 배치로 렌더 블로킹 제거 (LCP 최적화) -->
@@ -1345,6 +1467,153 @@
     // 초기 설정
     document.getElementById('scan-frame').style.display = 'block';
     loadModel();
+
+    // ── SNS 공유 ──
+    var _sfOpen = false;
+
+    function getShareText() {
+      var hasResult = document.getElementById('result-section').classList.contains('show');
+      var url = 'https://bs-pb2.pages.dev/';
+      var tags = '\n#귀멸의칼날 #상현닮은꼴 #귀멸AI #DemonSlayer';
+      if (hasResult) {
+        var name = (document.getElementById('result-name').textContent || '').trim();
+        var rank = (document.getElementById('result-rank').textContent || '').trim();
+        var score = (document.getElementById('result-score').textContent || '').trim();
+        if (name && name !== '—') {
+          return '🔥 귀멸의 칼날 상현 닮은꼴 테스트!\n나는 ' + name + '(' + rank + ')와 ' + score + ' 닮았다!\n너는 어떤 상현이랑 닮았어? 👇\n' + url + tags;
+        }
+      }
+      return '👁️ 귀멸의 칼날 상현 닮은꼴 AI 분석기\n내 얼굴이 어떤 상현 귀신과 닮았는지 무료로 바로 분석!\n' + url + tags;
+    }
+
+    function shareSNS(type) {
+      var text = getShareText();
+      var url = 'https://bs-pb2.pages.dev/';
+      if (type === 'native') {
+        if (navigator.share) {
+          navigator.share({ title: '귀멸의 칼날 상현 닮은꼴 AI 분석기', text: text, url: url }).catch(function(){});
+        } else { shareSNS('copy'); }
+      } else if (type === 'twitter') {
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'width=600,height=440,noopener');
+      } else if (type === 'facebook') {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text.split('\n')[0]), '_blank', 'width=600,height=440,noopener');
+      } else if (type === 'threads') {
+        window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(text), '_blank', 'width=600,height=440,noopener');
+      } else if (type === 'copy') {
+        var full = text;
+        var btn = document.getElementById('share-copy-btn');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(full).then(function() { showCopyToast(); if(btn){btn.textContent='✅ 복사됨';setTimeout(function(){btn.textContent='🔗 링크 복사';},2200);} });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = full; ta.style.cssText='position:fixed;opacity:0;';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta); showCopyToast();
+          if(btn){btn.textContent='✅ 복사됨';setTimeout(function(){btn.textContent='🔗 링크 복사';},2200);}
+        }
+      }
+      if (typeof gtag !== 'undefined') gtag('event','share',{event_category:'SNS',event_label:type});
+    }
+
+    function showCopyToast() {
+      var t = document.getElementById('copy-toast');
+      t.style.opacity = '1';
+      setTimeout(function(){ t.style.opacity = '0'; }, 2500);
+    }
+
+    function toggleShareFloat() {
+      _sfOpen = !_sfOpen;
+      document.getElementById('sf-items').classList.toggle('open', _sfOpen);
+      document.getElementById('sf-main-btn').textContent = _sfOpen ? '✕' : '↗';
+    }
+
+    window.addEventListener('scroll', function() {
+      var sf = document.getElementById('share-float');
+      sf.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    });
+    document.addEventListener('click', function(e) {
+      if (_sfOpen && !e.target.closest('.share-float')) {
+        _sfOpen = false;
+        document.getElementById('sf-items').classList.remove('open');
+        document.getElementById('sf-main-btn').textContent = '↗';
+      }
+    });
+
+    // 모바일이 아닌 경우 native 버튼 숨김
+    if (!navigator.share) {
+      var nb = document.getElementById('share-native-btn');
+      if (nb) nb.style.display = 'none';
+    }
+
+    // ── 결과 이미지 저장 (Canvas) ──
+    function downloadResultCard() {
+      var name  = (document.getElementById('result-name').textContent || '').trim();
+      var rank  = (document.getElementById('result-rank').textContent || '').trim();
+      var score = (document.getElementById('result-score').textContent || '').trim();
+      if (!name || name === '—') { setStatus('분석 결과가 없습니다. 먼저 분석을 진행해주세요.'); return; }
+
+      var W = 600, H = 380;
+      var cv = document.createElement('canvas');
+      cv.width = W; cv.height = H;
+      var c = cv.getContext('2d');
+
+      // 배경
+      c.fillStyle = '#05050f'; c.fillRect(0,0,W,H);
+      var bg = c.createRadialGradient(W/2,H/2,0,W/2,H/2,W*0.7);
+      bg.addColorStop(0,'rgba(92,10,138,0.25)');
+      bg.addColorStop(1,'rgba(192,57,43,0.12)');
+      c.fillStyle = bg; c.fillRect(0,0,W,H);
+
+      // 테두리
+      c.strokeStyle = 'rgba(192,57,43,0.6)'; c.lineWidth = 2;
+      c.strokeRect(10,10,W-20,H-20);
+      c.strokeStyle = 'rgba(240,192,64,0.15)'; c.lineWidth = 1;
+      c.strokeRect(16,16,W-32,H-32);
+
+      // 상단 레이블
+      c.fillStyle = 'rgba(240,192,64,0.7)';
+      c.font = 'bold 11px sans-serif';
+      c.textAlign = 'center';
+      c.fillText('귀멸의 칼날 상현 닮은꼴 AI 분석 결과', W/2, 48);
+
+      // 구분선
+      c.strokeStyle = 'rgba(192,57,43,0.4)'; c.lineWidth = 1;
+      c.beginPath(); c.moveTo(80,60); c.lineTo(W-80,60); c.stroke();
+
+      // 캐릭터 이름
+      c.fillStyle = '#ffffff';
+      c.font = 'bold 62px sans-serif';
+      c.fillText(name, W/2, 160);
+
+      // 랭크
+      c.fillStyle = '#c0392b';
+      c.font = 'bold 18px sans-serif';
+      c.fillText(rank, W/2, 192);
+
+      // 구분선2
+      c.strokeStyle = 'rgba(240,192,64,0.2)'; c.lineWidth = 1;
+      c.beginPath(); c.moveTo(180,210); c.lineTo(W-180,210); c.stroke();
+
+      // 유사도 점수
+      c.fillStyle = '#f0c040';
+      c.font = 'bold 80px sans-serif';
+      c.fillText(score, W/2, 300);
+      c.fillStyle = 'rgba(255,255,255,0.3)';
+      c.font = '13px sans-serif';
+      c.fillText('유사도', W/2, 322);
+
+      // 하단 URL + 해시태그
+      c.fillStyle = 'rgba(255,255,255,0.2)';
+      c.font = '11px sans-serif';
+      c.fillText('bs-pb2.pages.dev  |  #귀멸의칼날 #상현닮은꼴 #귀멸AI', W/2, 358);
+
+      // 다운로드
+      var link = document.createElement('a');
+      link.download = '상현닮은꼴_' + name + '_' + score + '.png';
+      link.href = cv.toDataURL('image/png');
+      link.click();
+      if (typeof gtag !== 'undefined') gtag('event','share',{event_category:'SNS',event_label:'image_save'});
+    }
 
     // ── 별점 평가 ──
     (function(){
