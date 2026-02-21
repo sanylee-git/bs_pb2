@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /firebase-debug.log
 
-Sitemap: https://bs-pb2.web.app/sitemap.xml
+Sitemap: https://bs-pb2.pages.dev/sitemap.xml
