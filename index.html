@@ -1248,19 +1248,32 @@
     let isRunning = false, currentTab = 'cam', uploadedImage = null;
 
     async function loadModel() {
+      model = null;
+      document.getElementById('start-btn').disabled = true;
       showLoading(true, t('index.loading'));
       setStatus(t('index.status.loading'));
-      try {
-        if (typeof tmImage === 'undefined') throw new Error('TeachableMachine 라이브러리 로드 실패. 네트워크를 확인해주세요.');
-        model = await tmImage.load(MODEL_URL + 'model.json', MODEL_URL + 'metadata.json');
-        setStatus(t('index.status.ready'));
-        document.getElementById('start-btn').disabled = false;
-        showLoading(false);
-      } catch (e) {
-        setStatus('⚠️ 모델 로드 실패: ' + (e.message || '네트워크 오류'));
-        showLoading(false);
-        console.error('[상현닮은꼴] loadModel 오류:', e);
+      const MAX_RETRY = 3;
+      for (let attempt = 1; attempt <= MAX_RETRY; attempt++) {
+        try {
+          if (typeof tmImage === 'undefined') throw new Error('TeachableMachine 라이브러리 로드 실패. 네트워크를 확인해주세요.');
+          model = await tmImage.load(MODEL_URL + 'model.json', MODEL_URL + 'metadata.json');
+          setStatus(t('index.status.ready'));
+          document.getElementById('start-btn').disabled = false;
+          showLoading(false);
+          return;
+        } catch (e) {
+          console.error('[상현닮은꼴] loadModel 오류 (' + attempt + '/' + MAX_RETRY + '):', e);
+          if (attempt < MAX_RETRY) {
+            setStatus(t('index.status.retrying') + ' (' + attempt + '/' + MAX_RETRY + ')...');
+            await new Promise(function(r) { setTimeout(r, 1500 * attempt); });
+          }
+        }
       }
+      showLoading(false);
+      var statusEl = document.getElementById('status-msg');
+      statusEl.innerHTML = t('index.status.fail') +
+        ' <button onclick="loadModel()" style="background:none;border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.55);cursor:pointer;padding:2px 10px;border-radius:4px;font-size:11px;margin-left:8px;letter-spacing:1px;">' +
+        t('index.btn.retry') + '</button>';
     }
 
     // ── 탭 전환 ──
