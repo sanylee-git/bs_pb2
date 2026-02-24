@@ -21,6 +21,10 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--dark-bg);
+  background-image: url('/%EC%83%81%ED%98%84%EC%BA%90%EB%A6%AD%ED%84%B0%EC%9D%B4%EB%AF%B8%EC%A7%80/%EB%AC%B4%ED%95%9C%EC%84%B1%ED%8F%AC%EC%8A%A4%ED%84%B0.webp');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
   font-family: 'Noto Sans KR', sans-serif;
   color: #fff;
   min-height: 100vh;
@@ -28,27 +32,37 @@ body {
   position: relative;
 }
 
+/* iOS mobile: fixed attachment 미지원 */
+@media (max-width: 768px) {
+  body { background-attachment: scroll; }
+}
+
+/* ── 다크 오버레이 + 분위기 색광 ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url('/%EC%83%81%ED%98%84%EC%BA%90%EB%A6%AD%ED%84%B0%EC%9D%B4%EB%AF%B8%EC%A7%80/%EB%AC%B4%ED%95%9C%EC%84%B1%ED%8F%AC%EC%8A%A4%ED%84%B0.webp');
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  filter: brightness(0.28);
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(92,10,138,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(192,57,43,0.13) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(123,16,16,0.12) 0%, transparent 48%),
+    rgba(5, 5, 15, 0.82);
   z-index: 0;
   pointer-events: none;
 }
 
+/* ── 스캔라인 텍스처 ── */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(92,10,138,0.22) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(192,57,43,0.18) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 80%, rgba(123,16,16,0.14) 0%, transparent 50%);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent        0px,
+    transparent        2px,
+    rgba(0,0,0,0.018) 2px,
+    rgba(0,0,0,0.018) 4px
+  );
   z-index: 0;
   pointer-events: none;
 }
