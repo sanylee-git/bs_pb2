@@ -112,6 +112,30 @@
       }
     ]
   }
+  ,
+  {
+    "@type": "Article",
+    "headline": "귀멸의 칼날 상현 닮은꼴 AI 분석기 서비스 소개",
+    "description": "TensorFlow.js 기반 브라우저 AI로 귀멸의 칼날 상현 닮은꼴을 분석하는 서비스의 작동 원리와 개인정보 보호 방식을 설명합니다.",
+    "url": "https://bs-pb2.pages.dev/about.html",
+    "image": "https://bs-pb2.pages.dev/images/douma.png",
+    "author": { "@type": "Person", "@id": "https://bs-pb2.pages.dev/#author" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "귀멸의 칼날 상현 닮은꼴",
+      "url": "https://bs-pb2.pages.dev/"
+    },
+    "datePublished": "2026-02-20",
+    "dateModified": "2026-03-10",
+    "inLanguage": ["ko", "en"]
+  },
+  {
+    "@type": "Person",
+    "@id": "https://bs-pb2.pages.dev/#author",
+    "name": "상현 AI 운영팀",
+    "description": "귀멸의 칼날 팬이자 TensorFlow.js 개발 경험 보유. Google Teachable Machine 기반 AI 모델 학습 및 브라우저 AI 서비스 구축을 담당합니다.",
+    "url": "https://bs-pb2.pages.dev/about.html"
+  }
   ]
   }
   </script>
@@ -157,6 +181,18 @@
       <p class="page-sub" data-i18n="about.page-sub">귀멸의 칼날 상현 닮은꼴 AI 분석기에 대해 알아보세요</p>
     </div>
 
+    <!-- ── GEO: Key Takeaways ── -->
+    <div class="content-section anim-in">
+      <h2>📌 핵심 요약</h2>
+      <ul>
+        <li><strong>브라우저 AI</strong> — TensorFlow.js가 기기 내에서 직접 추론, 서버 전송 없음</li>
+        <li><strong>완전한 개인정보 보호</strong> — 얼굴 이미지가 어떤 서버에도 전송·저장되지 않음</li>
+        <li><strong>완전 무료 서비스</strong> — 회원 가입·결제 없이 Google AdSense 광고로 운영</li>
+        <li><strong>상현 6등급 분석</strong> — 코쿠시보·도우마·아카자·한텐구·교코·규타로/다키</li>
+        <li><strong>비공식 팬 서비스</strong> — 저작권은 吾峠呼世晴 / 集英社에 귀속</li>
+      </ul>
+    </div>
+
     <div class="content-section anim-in" style="animation-delay:0.1s">
       <h2 data-i18n="about.s1.h2">🗡️ 이 서비스는 무엇인가요?</h2>
       <p>
@@ -174,6 +210,13 @@
       </p>
     </div>
 
+    <!-- ── E-E-A-T: Author Bio ── -->
+    <div class="content-section anim-in">
+      <h2>🗡️ 운영자 정보</h2>
+      <p><strong>상현 AI 운영팀</strong> — 귀멸의 칼날 팬이자 TensorFlow.js 개발 경험 보유. Google Teachable Machine 기반 AI 모델 학습 및 브라우저 AI 서비스 구축을 담당하고 있습니다.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;">최종 수정일: <time datetime="2026-03-10">2026년 3월 10일</time></p>
+    </div>
+
     <div class="content-section anim-in" style="animation-delay:0.15s">
       <h2 data-i18n="about.s2.h2">🤖 사용된 기술</h2>
       <h3>Google Teachable Machine</h3>
@@ -182,6 +225,7 @@
         Teachable Machine은 누구나 쉽게 이미지·오디오·포즈 인식 모델을 학습할 수 있는 도구로,
         복잡한 코딩 없이 머신러닝 모델을 제작·배포할 수 있습니다.</span>
       </p>
+      <p>코쿠시보·도우마·아카자·한텐구·교코·규타로/다키 7개 클래스에 대해 각 캐릭터별 이미지 데이터를 수집·증강하여 학습했습니다. 모델은 MobileNet 기반 이미지 분류 아키텍처를 활용하며, Teachable Machine의 공개 인프라에서 호스팅됩니다. 최초 접속 시 모델 파일(약 5~15MB)이 브라우저에 캐시되어 이후 접속 시에는 즉각 분석이 가능합니다.</p>
       <h3>TensorFlow.js</h3>
       <p>
         <span data-i18n-html="about.s2.tf-p-html">학습된 모델은 <strong>TensorFlow.js</strong>를 통해 브라우저 내에서 직접 실행됩니다.
@@ -189,11 +233,25 @@
         딥러닝 모델의 학습과 추론을 가능하게 합니다. 서버 전송 없이 사용자의 기기에서 모든 처리가
         완료되므로 빠르고 안전합니다.</span>
       </p>
+      <p>TensorFlow.js는 WebGL 가속을 통해 GPU를 활용한 고속 추론을 지원합니다. 모바일 기기에서도 CPU 폴백 모드로 안정적으로 동작하며, 모델 추론에 필요한 연산은 일반적으로 1~3초 내에 완료됩니다. 사용자의 이미지는 224×224 픽셀로 리사이즈된 후 정규화되어 모델에 입력되며, 추론 완료 즉시 메모리에서 자동으로 해제됩니다.</p>
       <h3 data-i18n="about.s2.webrtc-h3">WebRTC 웹캠 API</h3>
       <p>
         <span data-i18n-html="about.s2.webrtc-p-html">실시간 카메라 기능은 브라우저 표준 기술인 <strong>WebRTC</strong>의 MediaDevices API를 사용합니다.
         카메라 영상은 서버로 전송되지 않고 오직 브라우저 내에서만 처리됩니다.</span>
       </p>
+      <p><code>navigator.mediaDevices.getUserMedia()</code> API를 통해 카메라 스트림을 획득하며, 스냅샷 촬영 시 Canvas API로 단일 프레임을 추출합니다. HTTPS 환경에서만 동작하는 보안 제약 덕분에 중간자 공격을 방지하고, 사용자가 명시적으로 권한을 부여해야만 카메라 접근이 가능합니다.</p>
+    </div>
+
+    <!-- ── AdSense 광고 유닛 ── -->
+    <!-- ※ AdSense 대시보드에서 발급한 슬롯 ID로 XXXXXXXXXX를 교체하세요 -->
+    <div class="ad-unit-wrap">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-9688338422874533"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <div class="content-section anim-in" style="animation-delay:0.2s">
@@ -203,6 +261,7 @@
         모든 AI 분석은 사용자의 브라우저(기기) 내에서만 처리되며, 이미지 데이터는 분석 즉시 폐기됩니다.
         당사는 사용자의 얼굴 이미지를 수집·저장·학습에 사용하지 않습니다.</span>
       </p>
+      <p>구체적으로는 ①웹캠 스트림이 브라우저 샌드박스 내에서만 처리되고, ②업로드한 이미지가 File API를 통해 로컬에서만 읽히며, ③TensorFlow.js 추론 결과(유사도 퍼센트)만 화면에 렌더링됩니다. 원본 픽셀 데이터는 어떠한 형태로도 외부로 전달되지 않습니다.</p>
       <p>
         <span data-i18n-html="about.s3.p2-html">자세한 개인정보 처리 방침은 <a href="/privacy.html">개인정보처리방침 페이지</a>를 확인해주세요.</span>
       </p>

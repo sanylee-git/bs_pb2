@@ -474,3 +474,12 @@ body::after {
   /* 데스크톱 전용 lang-toggle 숨김 (nav-inner 내부 것만) */
   .nav-inner .lang-toggle { display: flex; }
 }
+
+/* ── AdSense 광고 래퍼 ── */
+.ad-unit-wrap {
+  width: 100%;
+  text-align: center;
+  margin: 22px 0;
+  overflow: hidden;
+  min-height: 90px;
+}
